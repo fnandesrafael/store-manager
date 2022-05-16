@@ -7,7 +7,7 @@
     "posttest": "node ./test/restoreDb.js",
     "test": "jest --runInBand --testTimeout=60000",
     "test:mocha": "nyc --all --include models --include services --include controllers mocha test/unit/**/*.js --exit",
-    "start": "node index.js",
+    "dev": "nodemon index.js",
     "debug": "nodemon --ignore coverage index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
     "restore": "node ./test/restoreDb.js"
@@ -39,7 +39,7 @@
     "jest": "^26.4.1",
     "mocha": "^8.4.0",
     "mysql-import": "^5.0.21",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.16",
     "nyc": "^15.1.0",
     "sinon": "^11.1.1",
     "supertest": "^6.2.2"
