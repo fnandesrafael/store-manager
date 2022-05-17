@@ -21,7 +21,35 @@ const getProductById = async (req, res) => {
   }
 };
 
+const createProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+  const newProduct = {
+    name,
+    quantity,
+  };
+
+  try {
+    return res.status(201).json(newProduct);
+  } catch (err) {
+    console.log('Erro no controller postProduct', err.message);
+    return res.status(400).json({ message: err.message });
+  }
+};
+
+const editProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+
+  const editedProduct = {
+    name,
+    quantity,
+  };
+
+  return res.status(200).json(editedProduct);
+};
+
 module.exports = {
   getProducts,
   getProductById,
+  createProduct,
+  editProduct,
 };
