@@ -9,7 +9,7 @@ const productValidation = async (req, res, next) => {
     const errStatus = err.details[0].message.split(',')[0];
     const errMessage = err.details[0].message.split(',')[1];
 
-    return res.status(errStatus).json({ message: errMessage });
+    return res.status(Number(errStatus)).json({ message: errMessage });
   } next();
 };
 
@@ -22,7 +22,7 @@ const saleValidation = async (req, res, next) => {
     const errStatus = err.details[0].message.split(',')[0];
     const errMessage = err.details[0].message.split(',')[1];
 
-    return res.status(errStatus).json({ message: errMessage });
+    return res.status(Number(errStatus)).json({ message: errMessage });
   } next();
 };
 
