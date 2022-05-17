@@ -8,7 +8,7 @@ const getProducts = async () => {
     `);
     return products;
   } catch (err) {
-    console.log(err.message);
+    console.log('Erro na model getProducts', err.message);
   }
 };
 
@@ -20,7 +20,7 @@ const getProductById = async (id) => {
     [id]);
     return product;
   } catch (err) {
-    console.log(err.message);
+    console.log('Erro na model getProductsById', err.message);
   }
 };
 

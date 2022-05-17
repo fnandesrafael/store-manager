@@ -5,7 +5,7 @@ const getProducts = async () => {
     const products = await productsModel.getProducts();
     return products;
   } catch (err) {
-    console.log(err.messag);
+    console.log('Erro no service getProducts', err.messag);
   }
 };
 
@@ -14,7 +14,7 @@ const getProductById = async (id) => {
     const product = await productsModel.getProductById(id);
     return product;
   } catch (err) {
-    console.log(err.message);
+    console.log('Erro no service getProductById', err.message);
   }
 };
   
