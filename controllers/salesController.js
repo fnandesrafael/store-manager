@@ -22,15 +22,10 @@ const getSaleById = async (req, res) => {
 };
 
 const createSale = async (req, res) => {
-  const { productId, quantity } = req.body;
-
-  const newSale = {
-    quantity,
-    productId,
-  };
+  const sales = req.body;
 
   try {
-    return res.status(201).json(newSale);
+    return res.status(201).json(sales);
   } catch (err) {
     console.log('Erro no controller postSale', err.message);
     return res.status(404).json({ message: err.message });

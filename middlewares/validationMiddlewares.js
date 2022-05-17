@@ -14,10 +14,10 @@ const productValidation = async (req, res, next) => {
 };
 
 const saleValidation = async (req, res, next) => {
-  const { productId, quantity } = req.body;
+  const sales = req.body;
 
   try {
-    await saleSchema.validateAsync({ productId, quantity });
+    await saleSchema.validateAsync(sales);
   } catch (err) {
     const errStatus = err.details[0].message.split(',')[0];
     const errMessage = err.details[0].message.split(',')[1];
