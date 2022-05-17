@@ -21,7 +21,36 @@ const getSaleById = async (req, res) => {
   }
 };
 
+const createSale = async (req, res) => {
+  const { productId, quantity } = req.body;
+
+  const newSale = {
+    quantity,
+    productId,
+  };
+
+  try {
+    return res.status(201).json(newSale);
+  } catch (err) {
+    console.log('Erro no controller postSale', err.message);
+    return res.status(404).json({ message: err.message });
+  }
+};
+
+const editSale = async (req, res) => {
+  const { productId, quantity } = req.body;
+
+  const editedSale = {
+    productId,
+    quantity,
+  };
+
+  return res.status(200).json(editedSale);
+};
+
 module.exports = {
   getSales,
   getSaleById,
+  createSale,
+  editSale,
 };
