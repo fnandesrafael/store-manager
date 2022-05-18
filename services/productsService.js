@@ -17,8 +17,18 @@ const getProductById = async (id) => {
     console.log('Erro no service getProductById', err.message);
   }
 };
+
+const createProduct = async (product) => {
+  try {
+    const createdProduct = await productsModel.createProduct(product);
+    return createdProduct;
+  } catch (err) {
+    console.log('Erro no service createProduct', err.message);
+  }
+};
   
   module.exports = {
     getProducts,
     getProductById,
+    createProduct,
   };

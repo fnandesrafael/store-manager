@@ -29,10 +29,12 @@ const createProduct = async (req, res) => {
   };
 
   try {
-    return res.status(201).json(newProduct);
+    const createdProduct = await productsService.createProduct(newProduct);
+    return createdProduct.length > 0 ? res.status(201).json(createdProduct[0])
+      : res.status(409).json({ message: 'Product already exists' });
   } catch (err) {
     console.log('Erro no controller postProduct', err.message);
-    return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: 'Internal server error' });
   }
 };
 
