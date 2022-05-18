@@ -39,14 +39,22 @@ const createProduct = async (req, res) => {
 };
 
 const editProduct = async (req, res) => {
+  const { id } = req.params;
   const { name, quantity } = req.body;
-
-  const editedProduct = {
+  
+  const newProduct = {
+    id,
     name,
     quantity,
   };
 
-  return res.status(200).json(editedProduct);
+  try {
+    const editedProduct = await productsService.editProduct(newProduct);
+    return editedProduct.length === 0 ? res.status(404).json({ message: 'Product not found' })
+      : res.status(200).json(newProduct);
+  } catch (err) {
+    console.log('Erro no controller editProduct', err.message);
+  }
 };
 
 module.exports = {

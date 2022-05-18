@@ -26,9 +26,19 @@ const createProduct = async (product) => {
     console.log('Erro no service createProduct', err.message);
   }
 };
+
+const editProduct = async (product) => {
+  try {
+    const editedProduct = await productsModel.editProduct(product);
+    return editedProduct;
+  } catch (err) {
+    console.log('Erro no service editProduct', err.message);
+  }
+};
   
   module.exports = {
     getProducts,
     getProductById,
     createProduct,
+    editProduct,
   };

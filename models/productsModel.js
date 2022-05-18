@@ -24,8 +24,8 @@ const getProductById = async (id) => {
   }
 };
 
-const createProduct = async (productName) => {
-  const { name, quantity } = productName;
+const createProduct = async (product) => {
+  const { name, quantity } = product;
   try {
     const [verifiedProduct] = await connection.query(`
       SELECT name FROM StoreManager.products
@@ -45,8 +45,30 @@ const createProduct = async (productName) => {
   }
 };
 
+const editProduct = async (product) => {
+  const { id, name, quantity } = product;
+  
+  try {
+    const [verifiedProduct] = await connection.query(`
+      SELECT * FROM StoreManager.products
+      WHERE id = ?
+    `, [id]);
+    if (verifiedProduct.length === 0) {
+      return verifiedProduct;
+    } const editionResult = await connection.query(`
+      UPDATE StoreManager.products
+      SET name = ?, quantity = ?
+      WHERE id = ?
+    `, [name, quantity, id]);
+    return editionResult;
+  } catch (err) {
+    console.log('Erro na model editProduct', err.message);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
+  editProduct,
 };
