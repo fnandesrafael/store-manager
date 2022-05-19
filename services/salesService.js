@@ -27,8 +27,18 @@ const createSale = async (sales) => {
   }
 };
 
+const editSale = async (id, sales) => {
+  try {
+    const editedSales = await salesModel.editSale(id, sales);
+    return editedSales;
+  } catch (err) {
+    console.log('Erro no service editSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
+  editSale,
 };

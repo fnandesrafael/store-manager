@@ -34,14 +34,15 @@ const createSale = async (req, res) => {
 };
 
 const editSale = async (req, res) => {
-  const { productId, quantity } = req.body;
+  const { id } = req.params;
+  const recoveredSales = req.body;
 
-  const editedSale = {
-    productId,
-    quantity,
-  };
-
-  return res.status(200).json(editedSale);
+  try {
+    const editedSales = await salesService.editSale(id, recoveredSales);
+    return res.status(200).json(editedSales);
+  } catch (err) {
+    console.log('Erro no controller editSale', err.message);
+  }
 };
 
 module.exports = {

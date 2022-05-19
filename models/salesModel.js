@@ -47,8 +47,30 @@ const createSale = async (sales) => {
   }
 };
 
+const editSale = async (id, sales) => {
+  try {
+    const [verifiedSale] = await connection.query(`
+      SELECT * FROM StoreManager.sales_products
+      WHERE sale_id = ?
+    `, [id]);
+    if (verifiedSale === 0) {
+      return [];
+    } await sales.forEach((sale) => (
+      connection.query(`
+        UPDATE StoreManager.sales_products
+        SET product_id = ?, quantity = ?
+        WHERE sale_id = ?
+      `, [sale.productId, sale.quantity, id])
+    ));
+    return { saleId: id, itemUpdated: sales };
+  } catch (err) {
+    console.log('Erro na model editSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
+  editSale,
 };
