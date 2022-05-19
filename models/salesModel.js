@@ -68,9 +68,27 @@ const editSale = async (id, sales) => {
   }
 };
 
+const deleteSale = async (id) => {
+  try {
+    const [verifiedSale] = await connection.query(`
+      SELECT * FROM StoreManager.sales
+      WHERE id = ?
+    `, [id]);
+    if (verifiedSale.length > 0) {
+      await connection.query(`
+        DELETE FROM StoreManager.sales
+        WHERE id = ?
+      `, [id]);
+    } return verifiedSale;
+  } catch (err) {
+    console.log('Erro na model deleteSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
   editSale,
+  deleteSale,
 };

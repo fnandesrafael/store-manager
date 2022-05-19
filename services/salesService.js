@@ -36,9 +36,19 @@ const editSale = async (id, sales) => {
   }
 };
 
+const deleteSale = async (id) => {
+  try {
+    const deletedSales = await salesModel.deleteSale(id);
+    return deletedSales;
+  } catch (err) {
+    console.log('Erro no service deleteSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
   editSale,
+  deleteSale,
 };

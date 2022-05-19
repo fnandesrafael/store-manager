@@ -45,9 +45,22 @@ const editSale = async (req, res) => {
   }
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedSale = await salesService.deleteSale(id);
+    return deletedSale.length > 0 ? res.status(204).send()
+      : res.status(404).json({ message: 'Sale not found' });
+  } catch (err) {
+    console.log('Erro no controller deleteSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
   createSale,
   editSale,
+  deleteSale,
 };
