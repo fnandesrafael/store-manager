@@ -35,10 +35,20 @@ const editProduct = async (product) => {
     console.log('Erro no service editProduct', err.message);
   }
 };
+
+const deleteProduct = async (productId) => {
+  try {
+    const deletedProduct = await productsModel.deleteProduct(productId);
+    return deletedProduct;
+  } catch (err) {
+    console.log('Erro no service deleeProduct', err.message);
+  }
+};
   
   module.exports = {
     getProducts,
     getProductById,
     createProduct,
     editProduct,
+    deleteProduct,
   };

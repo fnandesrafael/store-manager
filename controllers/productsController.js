@@ -57,9 +57,21 @@ const editProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedProduct = await productsService.deleteProduct(id);
+    return deletedProduct.length > 0 ? res.status(204).send()
+      : res.status(404).json({ message: 'Product not found' });
+  } catch (err) {
+    console.log('Erro no controller deleteProduct', err.message);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   editProduct,
+  deleteProduct,
 };
