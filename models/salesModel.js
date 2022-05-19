@@ -28,7 +28,27 @@ const getSaleById = async (id) => {
   }
 };
 
+const createSale = async (sales) => {
+  try {
+    const [saleRegistry] = await connection.query(`
+      INSERT INTO StoreManager.sales
+      VALUES()
+    `);
+    await sales.forEach((sale) => (
+      connection.query(`
+        INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+        VALUES (?, ?, ?)
+      `, [saleRegistry.insertId, sale.productId, sale.quantity])
+    ));
+    const createdSale = { id: saleRegistry.insertId, itemsSold: sales };
+    return createdSale;
+  } catch (err) {
+    console.log('Erro na model createSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
+  createSale,
 };

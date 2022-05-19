@@ -18,7 +18,17 @@ const getSaleById = async (id) => {
   }
 };
 
+const createSale = async (sales) => {
+  try {
+    const createdSale = await salesModel.createSale(sales);
+    return createdSale;
+  } catch (err) {
+    console.log('Erro no service createSale', err.message);
+  }
+};
+
 module.exports = {
   getSales,
   getSaleById,
+  createSale,
 };

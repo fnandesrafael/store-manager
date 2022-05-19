@@ -25,10 +25,11 @@ const createSale = async (req, res) => {
   const sales = req.body;
 
   try {
-    return res.status(201).json(sales);
+    const createdSale = await salesService.createSale(sales);
+    return res.status(201).json(createdSale);
   } catch (err) {
     console.log('Erro no controller postSale', err.message);
-    return res.status(404).json({ message: err.message });
+    return res.status(400).json({ message: 'Error while trying to registry your sale' });
   }
 };
 
