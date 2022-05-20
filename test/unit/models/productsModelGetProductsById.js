@@ -30,6 +30,8 @@ describe('Testa se a Model getProductsById realiza uma busca no BD "StoreManager
   })
 
   describe('Quando há um produto com o Id passado nos parâmetros', () => {
+    const paramMoch = 7 
+    
     beforeEach(() => {
       const queryResult = [[{
         id: 7,
@@ -70,7 +72,6 @@ describe('Testa se a Model getProductsById realiza uma busca no BD "StoreManager
     })
 
     it('O valor da chave id do objeto é igual ao id passado no parâmetro', async () => {
-      const paramMoch = 7 
       const [response] = await productsModel.getProductById(paramMoch)
 
       expect(response).to.be.includes({id: paramMoch})

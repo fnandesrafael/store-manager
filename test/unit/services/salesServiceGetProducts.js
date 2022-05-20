@@ -68,7 +68,7 @@ describe('Testa a Camada Service getSales', () => {
     it('Os objetos possuem as chaves date, saleId, productId e quantity', async () => {
       const [response] = await salesModel.getSales()
 
-      expect(response).to.be.includes.all.keys('date', 'saleId', 'productID', 'quantity')
+      expect(response).to.be.includes.all.keys('date', 'saleId', 'productId', 'quantity')
     })
 
   })
