@@ -66,27 +66,27 @@ const editProduct = async (product) => {
   }
 };
 
-// const deleteProduct = async (productId) => {
-//   try {
-//     const [verifiedProduct] = await connection.query(`
-//       SELECT * FROM StoreManager.products
-//       WHERE id = ?
-//     `, [productId]);
-//     if (verifiedProduct.length > 0) {
-//       await connection.query(`
-//         DELETE FROM StoreManager.products
-//         WHERE id = ?
-//       `, [productId]);
-//     } return verifiedProduct;
-//   } catch (err) {
-//     console.log('Erro na model deleteProduct', err.messag);
-//   }
-// };
+const deleteProduct = async (productId) => {
+  try {
+    const [verifiedProduct] = await connection.query(`
+      SELECT * FROM StoreManager.products
+      WHERE id = ?
+    `, [productId]);
+    if (verifiedProduct.length > 0) {
+      await connection.query(`
+        DELETE FROM StoreManager.products
+        WHERE id = ?
+      `, [productId]);
+    } return verifiedProduct;
+  } catch (err) {
+    console.log('Erro na model deleteProduct', err.messag);
+  }
+};
 
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   editProduct,
-  // deleteProduct,
+  deleteProduct,
 };
