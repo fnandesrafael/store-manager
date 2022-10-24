@@ -77,7 +77,7 @@ describe('Testa a model Product', () => {
   describe('quando é buscado um produto em específico', () => {
     describe('e o produto está cadastrado no banco de dados', async () => {
       before(() => {
-        sinon.stub(connection, 'query').resolves(searchedProductMock)
+        sinon.stub(connection, 'query').resolves([searchedProductMock])
       })
   
       after(() => {
@@ -99,17 +99,18 @@ describe('Testa a model Product', () => {
 
     describe('mas o produto não está cadastrado no banco de dados', async () => {
       before(() => {
-        sinon.stub(connection, 'query').resolves(null)
+        sinon.stub(connection, 'query').resolves([[]])
       })
   
       after(() => {
         sinon.restore()
       })
       
-      it('é retornado nulo', async () => {
+      it('é retornado um array vazio', async () => {
         const sut = await Product.getProductById(1)
 
-        expect(sut).to.be.equal(null)
+        expect(sut).to.be.an('array')
+        expect(sut).to.be.empty
       });
     });
   });

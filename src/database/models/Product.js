@@ -20,7 +20,7 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const product = await connection.query(`
+  const [product] = await connection.query(`
     SELECT * FROM StoreManager.products
     WHERE id = ?`,
   [id]);
