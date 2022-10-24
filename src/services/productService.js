@@ -27,12 +27,12 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  try {
-    const product = await Product.getProductById(id);
-    return product;
-  } catch (err) {
-    console.log('Erro no service getProductById', err.message);
+  const [product] = await Product.getProductById(id);
+
+  if (!product) {
+    return { statusCode: 404, message: { message: 'Product not found' } };
   }
+  return { statusCode: 200, message: product };
 };
 
 const editProduct = async (product) => {

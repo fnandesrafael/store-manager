@@ -16,13 +16,8 @@ const getProducts = async (_req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const product = await productService.getProductById(id);
-    return product.length > 0 ? res.status(200).json(product[0])
-    : res.status(404).json({ message: 'Product not found' });
-  } catch (err) {
-    console.log('Erro no controller getProductById', err.message);
-  }
+  const response = await productService.getProductById(id);
+  return res.status(response.statusCode).json(response.message);
 };
 
 const editProduct = async (req, res) => {
