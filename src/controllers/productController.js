@@ -1,5 +1,13 @@
 const productService = require('../services/productService');
 
+const createProduct = async (req, res) => {
+  const { name, quantity } = req.body;
+
+  const response = await productService.createProduct({ name, quantity });
+  
+  return res.status(response.statusCode).json(response.message);
+};
+
 const getProducts = async (_req, res) => {
   try {
     const products = await productService.getProducts();
@@ -18,23 +26,6 @@ const getProductById = async (req, res) => {
     : res.status(404).json({ message: 'Product not found' });
   } catch (err) {
     console.log('Erro no controller getProductById', err.message);
-  }
-};
-
-const createProduct = async (req, res) => {
-  const { name, quantity } = req.body;
-  const newProduct = {
-    name,
-    quantity,
-  };
-
-  try {
-    const createdProduct = await productService.createProduct(newProduct);
-    return createdProduct.length > 0 ? res.status(201).json(createdProduct[0])
-      : res.status(409).json({ message: 'Product already exists' });
-  } catch (err) {
-    console.log('Erro no controller postProduct', err.message);
-    return res.status(400).json({ message: 'Internal server error' });
   }
 };
 
@@ -69,9 +60,9 @@ const deleteProduct = async (req, res) => {
 };
 
 module.exports = {
+  createProduct,
   getProducts,
   getProductById,
-  createProduct,
   editProduct,
   deleteProduct,
 };

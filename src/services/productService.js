@@ -1,4 +1,20 @@
 const Product = require('../database/models/Product');
+const { productSchema } = require('../utils/joiSchemas');
+
+const createProduct = async (product) => {
+  try {
+    await productSchema.validateAsync(product);
+  } catch (err) {
+    console.log(err);
+    const statusCode = err.details[0].message.split(',')[0];
+    const message = err.details[0].message.split(',')[1];
+
+    return { statusCode, message: { message } };
+  }
+
+  const createdProduct = await Product.createProduct(product);
+  return { statusCode: 201, message: createdProduct };
+};
 
 const getProducts = async () => {
   try {
@@ -15,15 +31,6 @@ const getProductById = async (id) => {
     return product;
   } catch (err) {
     console.log('Erro no service getProductById', err.message);
-  }
-};
-
-const createProduct = async (product) => {
-  try {
-    const createdProduct = await Product.createProduct(product);
-    return createdProduct;
-  } catch (err) {
-    console.log('Erro no service createProduct', err.message);
   }
 };
 
@@ -46,9 +53,9 @@ const deleteProduct = async (productId) => {
 };
   
   module.exports = {
+    createProduct,
     getProducts,
     getProductById,
-    createProduct,
     editProduct,
     deleteProduct,
   };
