@@ -11,15 +11,12 @@ const createProduct = async (product) => {
 };
 
 const getProducts = async () => {
-  try {
-    const [products] = await connection.query(`
-      SELECT * FROM StoreManager.products
-      ORDER BY id ASC
-    `);
-    return products;
-  } catch (err) {
-    console.log('Erro na model getProducts', err.message);
-  }
+  const [products] = await connection.query(`
+    SELECT * FROM StoreManager.products
+    ORDER BY id ASC
+  `);
+  
+  return products;
 };
 
 const getProductById = async (id) => {
