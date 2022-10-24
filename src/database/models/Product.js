@@ -1,7 +1,7 @@
 const connection = require('../connection');
 
-const createProduct = async (product) => {
-  const { name, quantity } = product;
+const createProduct = async (payload) => {
+  const { name, quantity } = payload;
   const queryResult = await connection.query(`
     INSERT INTO StoreManager.products (name, quantity)
     VALUES(?, ?)
@@ -11,42 +11,33 @@ const createProduct = async (product) => {
 };
 
 const getProducts = async () => {
-  const [products] = await connection.query(`
+  const [queryResult] = await connection.query(`
     SELECT * FROM StoreManager.products
     ORDER BY id ASC
   `);
   
-  return products;
+  return queryResult;
 };
 
 const getProductById = async (id) => {
-  const [product] = await connection.query(`
+  const [queryResult] = await connection.query(`
     SELECT * FROM StoreManager.products
     WHERE id = ?`,
   [id]);
   
-  return product;
+  return queryResult;
 };
 
-const editProduct = async (product) => {
-  const { id, name, quantity } = product;
+const editProduct = async (id, payload) => {
+  const { name, quantity } = payload;
   
-  try {
-    const [verifiedProduct] = await connection.query(`
-      SELECT * FROM StoreManager.products
-      WHERE id = ?
-    `, [id]);
-    if (verifiedProduct.length === 0) {
-      return verifiedProduct;
-    } const editionResult = await connection.query(`
-      UPDATE StoreManager.products
-      SET name = ?, quantity = ?
-      WHERE id = ?
-    `, [name, quantity, id]);
-    return editionResult;
-  } catch (err) {
-    console.log('Erro na model editProduct', err.message);
-  }
+  const [queryResult] = await connection.query(`
+    UPDATE StoreManager.products
+    SET name = ?, quantity = ?
+    WHERE id = ?
+  `, [name, quantity, id]);
+
+  return queryResult;
 };
 
 const deleteProduct = async (productId) => {

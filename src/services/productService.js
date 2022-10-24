@@ -1,9 +1,9 @@
 const Product = require('../database/models/Product');
 const { productSchema } = require('../utils/joiSchemas');
 
-const createProduct = async (product) => {
+const createProduct = async (payload) => {
   try {
-    await productSchema.validateAsync(product);
+    await productSchema.validateAsync(payload);
   } catch (err) {
     console.log(err);
     const statusCode = err.details[0].message.split(',')[0];
@@ -12,8 +12,8 @@ const createProduct = async (product) => {
     return { statusCode, message: { message } };
   }
 
-  const createdProduct = await Product.createProduct(product);
-  return { statusCode: 201, message: createdProduct };
+  const product = await Product.createProduct(payload);
+  return { statusCode: 201, message: product };
 };
 
 const getProducts = async () => {
@@ -35,13 +35,22 @@ const getProductById = async (id) => {
   return { statusCode: 200, message: product };
 };
 
-const editProduct = async (product) => {
+const editProduct = async (id, payload) => {
   try {
-    const editedProduct = await Product.editProduct(product);
-    return editedProduct;
+    await productSchema.validateAsync(payload);
   } catch (err) {
-    console.log('Erro no service editProduct', err.message);
+    console.log(err);
+    const statusCode = err.details[0].message.split(',')[0];
+    const message = err.details[0].message.split(',')[1];
+
+    return { statusCode, message: { message } };
   }
+  
+  const product = await Product.editProduct(id, payload);
+
+  if (product.affectedRows === 0) {
+    return { statusCode: 404, message: { message: 'Product not found' } };
+  } return { statusCode: 200, message: { id, ...payload } };
 };
 
 const deleteProduct = async (productId) => {
