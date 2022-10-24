@@ -13,17 +13,13 @@ const createProduct = async (payload) => {
   }
 
   const product = await Product.createProduct(payload);
+  
   return { statusCode: 201, message: product };
 };
 
 const getProducts = async () => {
-  try {
-    const products = await Product.getProducts();
-    return { statusCode: 200, message: products };
-  } catch (err) {
-    console.log(err);
-    return { statusCode: 500, message: 'Internal server error' };
-  }
+  const products = await Product.getProducts();
+  return { statusCode: 200, message: products };
 };
 
 const getProductById = async (id) => {
@@ -32,6 +28,7 @@ const getProductById = async (id) => {
   if (!product) {
     return { statusCode: 404, message: { message: 'Product not found' } };
   }
+  
   return { statusCode: 200, message: product };
 };
 
@@ -50,16 +47,19 @@ const editProduct = async (id, payload) => {
 
   if (product.affectedRows === 0) {
     return { statusCode: 404, message: { message: 'Product not found' } };
-  } return { statusCode: 200, message: { id, ...payload } };
+  }
+  
+  return { statusCode: 200, message: { id, ...payload } };
 };
 
-const deleteProduct = async (productId) => {
-  try {
-    const deletedProduct = await Product.deleteProduct(productId);
-    return deletedProduct;
-  } catch (err) {
-    console.log('Erro no service deleeProduct', err.message);
+const deleteProduct = async (id) => {
+  const product = await Product.deleteProduct(id);
+
+  if (product.affectedRows === 0) {
+    return { statusCode: 404, message: { message: 'Product not found' } };
   }
+
+  return { statusCode: 204 };
 };
   
   module.exports = {
