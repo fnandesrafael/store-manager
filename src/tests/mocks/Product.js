@@ -27,8 +27,15 @@ const searchedProductMock = {
   quantity: 10
 }
 
+const updatedProductMock = {
+  id: 1,
+  name: 'Machado de Thor',
+  quantity: 15
+}
+
 module.exports = {
   newProductMock,
   allProductsMock,
-  searchedProductMock
+  searchedProductMock,
+  updatedProductMock
 }
