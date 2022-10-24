@@ -21,7 +21,14 @@ const allProductsMock = [
   }
 ]
 
+const searchedProductMock = {
+  id: 1,
+  name: 'Martelo de Thor',
+  quantity: 10
+}
+
 module.exports = {
   newProductMock,
-  allProductsMock
+  allProductsMock,
+  searchedProductMock
 }

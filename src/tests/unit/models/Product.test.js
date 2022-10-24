@@ -2,7 +2,11 @@ const { expect } = require('chai');
 const { describe } = require('mocha');
 const sinon = require('sinon')
 const connection = require('../../../database/connection')
-const { newProductMock, allProductsMock } = require('../../mocks/Product');
+const {
+  newProductMock,
+  allProductsMock,
+  searchedProductMock
+} = require('../../mocks/Product');
 const Product = require('../../../database/models/Product')
 
 describe('Testa a model Product', () => {
@@ -29,18 +33,15 @@ describe('Testa a model Product', () => {
   });
 
   describe('quando são buscados todos os produtos com sucesso', () => {
-    before(() => {
-      sinon.stub(connection, 'query')
-        .onCall(0).resolves([allProductsMock])
-        .onCall(1).resolves([allProductsMock])
-        .onCall(2).resolves([[]])
-    });
-
-    after(() => {
-      sinon.restore;
-    });
-
     describe('e existem cadastros no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([allProductsMock])
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
       it('é retornado um array de objetos', async () => {
         const sut = await Product.getProducts()
 
@@ -56,11 +57,59 @@ describe('Testa a model Product', () => {
     });
 
     describe('e não existem cadastros no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([[]])
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
       it('é retornado um array vazio', async () => {
         const sut = await Product.getProducts()
 
         expect(sut).to.be.an('array')
         expect(sut).to.be.empty
+      });
+    });
+  });
+
+  describe('quando é buscado um produto em específico', () => {
+    describe('e o produto está cadastrado no banco de dados', async () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves(searchedProductMock)
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+
+      it('é retornado o produto pesquisado', async () => {
+        const sut = await Product.getProductById(1)
+
+        expect(sut).to.be.deep.equal(searchedProductMock)
+      });
+
+      it('o produto possui as chaves "id", "name" e "quantity"', async () => {
+        const sut = await Product.getProductById(1)
+
+        expect(sut).to.have.all.keys('id', 'name', 'quantity')
+      });
+    });
+
+    describe('mas o produto não está cadastrado no banco de dados', async () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves(null)
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+      
+      it('é retornado nulo', async () => {
+        const sut = await Product.getProductById(1)
+
+        expect(sut).to.be.equal(null)
       });
     });
   });

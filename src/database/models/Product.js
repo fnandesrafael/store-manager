@@ -20,15 +20,12 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  try {
-    const [product] = await connection.query(`
-      SELECT * FROM StoreManager.products
-      WHERE id = ?`,
-    [id]);
-    return product;
-  } catch (err) {
-    console.log('Erro na model getProductsById', err.message);
-  }
+  const product = await connection.query(`
+    SELECT * FROM StoreManager.products
+    WHERE id = ?`,
+  [id]);
+  
+  return product;
 };
 
 const editProduct = async (product) => {
