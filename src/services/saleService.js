@@ -1,8 +1,8 @@
-const salesModel = require('../models/salesModel');
+const Sale = require('../database/models/Sale');
 
 const getSales = async () => {
   try {
-    const sales = await salesModel.getSales();
+    const sales = await Sale.getSales();
     return sales;
   } catch (err) {
     console.log('Erro no service getSales', err.messsage);
@@ -11,7 +11,7 @@ const getSales = async () => {
 
 const getSaleById = async (id) => {
   try {
-    const sale = await salesModel.getSaleById(id);
+    const sale = await Sale.getSaleById(id);
     return sale;
   } catch (err) {
     console.log('Erro no service getSaleById', err.message);
@@ -20,7 +20,7 @@ const getSaleById = async (id) => {
 
 const createSale = async (sales) => {
   try {
-    const createdSale = await salesModel.createSale(sales);
+    const createdSale = await Sale.createSale(sales);
     return createdSale;
   } catch (err) {
     console.log('Erro no service createSale', err.message);
@@ -29,7 +29,7 @@ const createSale = async (sales) => {
 
 const editSale = async (id, sales) => {
   try {
-    const editedSales = await salesModel.editSale(id, sales);
+    const editedSales = await Sale.editSale(id, sales);
     return editedSales;
   } catch (err) {
     console.log('Erro no service editSale', err.message);
@@ -38,7 +38,7 @@ const editSale = async (id, sales) => {
 
 const deleteSale = async (id) => {
   try {
-    const deletedSales = await salesModel.deleteSale(id);
+    const deletedSales = await Sale.deleteSale(id);
     return deletedSales;
   } catch (err) {
     console.log('Erro no service deleteSale', err.message);

@@ -1,5 +1,24 @@
 const connection = require('../connection');
 
+const createSale = async (sales) => {
+  try {
+    const [saleRegistry] = await connection.query(`
+      INSERT INTO StoreManager.sales
+      VALUES()
+    `);
+    await sales.forEach((sale) => (
+      connection.query(`
+        INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+        VALUES (?, ?, ?)
+      `, [saleRegistry.insertId, sale.productId, sale.quantity])
+    ));
+    const createdSale = { id: saleRegistry.insertId, itemsSold: sales };
+    return createdSale;
+  } catch (err) {
+    console.log('Erro na model createSale', err.message);
+  }
+};
+
 const getSales = async () => {
   try {
     const [sales] = await connection.query(`
@@ -25,25 +44,6 @@ const getSaleById = async (id) => {
     return sale;
   } catch (err) {
     console.log('Erro na model getSaleById', err.message);
-  }
-};
-
-const createSale = async (sales) => {
-  try {
-    const [saleRegistry] = await connection.query(`
-      INSERT INTO StoreManager.sales
-      VALUES()
-    `);
-    await sales.forEach((sale) => (
-      connection.query(`
-        INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
-        VALUES (?, ?, ?)
-      `, [saleRegistry.insertId, sale.productId, sale.quantity])
-    ));
-    const createdSale = { id: saleRegistry.insertId, itemsSold: sales };
-    return createdSale;
-  } catch (err) {
-    console.log('Erro na model createSale', err.message);
   }
 };
 
@@ -86,9 +86,9 @@ const deleteSale = async (id) => {
 };
 
 module.exports = {
+  createSale,
   getSales,
   getSaleById,
-  createSale,
   editSale,
   deleteSale,
 };

@@ -1,5 +1,5 @@
-const productsRouter = require('./productsRouter');
-const salesRouter = require('./salesRouter');
+const productsRouter = require('./product.routes');
+const salesRouter = require('./sales.routes');
 
 module.exports = {
   productsRouter,

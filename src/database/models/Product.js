@@ -1,5 +1,26 @@
 const connection = require('../connection');
 
+const createProduct = async (product) => {
+  const { name, quantity } = product;
+  try {
+    const [verifiedProduct] = await connection.query(`
+      SELECT name FROM StoreManager.products
+      WHERE name = ?
+    `, [name]);
+
+    if (verifiedProduct.length === 0) {
+      const creationResult = await connection.query(`
+        INSERT INTO StoreManager.products (name, quantity)
+        VALUES(?, ?)
+      `, [name, quantity]);
+      const createdProduct = [{ id: creationResult[0].insertId, name, quantity }];
+      return createdProduct;
+    } return [];
+  } catch (err) {
+    console.log('Erro na model createProduct', err.message);
+  }
+};
+
 const getProducts = async () => {
   try {
     const [products] = await connection.query(`
@@ -21,27 +42,6 @@ const getProductById = async (id) => {
     return product;
   } catch (err) {
     console.log('Erro na model getProductsById', err.message);
-  }
-};
-
-const createProduct = async (product) => {
-  const { name, quantity } = product;
-  try {
-    const [verifiedProduct] = await connection.query(`
-      SELECT name FROM StoreManager.products
-      WHERE name = ?
-    `, [name]);
-
-    if (verifiedProduct.length === 0) {
-      const creationResult = await connection.query(`
-        INSERT INTO StoreManager.products (name, quantity)
-        VALUES(?, ?)
-      `, [name, quantity]);
-      const createdProduct = [{ id: creationResult[0].insertId, name, quantity }];
-      return createdProduct;
-    } return [];
-  } catch (err) {
-    console.log('Erro na model createProduct', err.message);
   }
 };
 
@@ -84,9 +84,9 @@ const deleteProduct = async (productId) => {
 };
 
 module.exports = {
+  createProduct,
   getProducts,
   getProductById,
-  createProduct,
   editProduct,
   deleteProduct,
 };

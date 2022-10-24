@@ -1,8 +1,8 @@
-const productsService = require('../services/productsService');
+const productService = require('../services/productService');
 
 const getProducts = async (_req, res) => {
   try {
-    const products = await productsService.getProducts();
+    const products = await productService.getProducts();
     return res.status(200).json(products);
   } catch (err) {
     console.log('Erro no controller getProducts', err.message);
@@ -13,7 +13,7 @@ const getProductById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const product = await productsService.getProductById(id);
+    const product = await productService.getProductById(id);
     return product.length > 0 ? res.status(200).json(product[0])
     : res.status(404).json({ message: 'Product not found' });
   } catch (err) {
@@ -29,7 +29,7 @@ const createProduct = async (req, res) => {
   };
 
   try {
-    const createdProduct = await productsService.createProduct(newProduct);
+    const createdProduct = await productService.createProduct(newProduct);
     return createdProduct.length > 0 ? res.status(201).json(createdProduct[0])
       : res.status(409).json({ message: 'Product already exists' });
   } catch (err) {
@@ -49,7 +49,7 @@ const editProduct = async (req, res) => {
   };
 
   try {
-    const editedProduct = await productsService.editProduct(newProduct);
+    const editedProduct = await productService.editProduct(newProduct);
     return editedProduct.length === 0 ? res.status(404).json({ message: 'Product not found' })
       : res.status(200).json(newProduct);
   } catch (err) {
@@ -60,7 +60,7 @@ const editProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const deletedProduct = await productsService.deleteProduct(id);
+    const deletedProduct = await productService.deleteProduct(id);
     return deletedProduct.length > 0 ? res.status(204).send()
       : res.status(404).json({ message: 'Product not found' });
   } catch (err) {
