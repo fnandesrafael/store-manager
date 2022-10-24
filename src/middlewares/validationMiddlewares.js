@@ -1,4 +1,4 @@
-const { productSchema, saleSchema } = require('../utils/joiSchemas');
+const { productSchema, saleSchema } = require('../../utils/joiSchemas');
 
 const productValidation = async (req, res, next) => {
   const { name, quantity } = req.body;

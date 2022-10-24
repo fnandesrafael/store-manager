@@ -4,11 +4,11 @@
   "description": "CRUD com Mysql e NodeJS para vendas de produtos",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run db:reset && nodemon index.js",
-    "test": "mocha ./tests/unit/**/*.test.js",
+    "dev": "npm run db:reset && nodemon ./src/index.js",
+    "test": "mocha ./src/tests/unit/**/*.test.js",
     "test:coverage": "nyc npm run test",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
-    "db:reset": "node ./database/restoreDb.js"
+    "db:reset": "node ./src/database/restoreDb.js"
   },
   "author": "rafaelimaf",
   "license": "ISC",
