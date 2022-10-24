@@ -9,12 +9,8 @@ const createProduct = async (req, res) => {
 };
 
 const getProducts = async (_req, res) => {
-  try {
-    const products = await productService.getProducts();
-    return res.status(200).json(products);
-  } catch (err) {
-    console.log('Erro no controller getProducts', err.message);
-  }
+  const response = await productService.getProducts();
+  return res.status(response.statusCode).json(response.message);
 };
 
 const getProductById = async (req, res) => {

@@ -19,9 +19,10 @@ const createProduct = async (product) => {
 const getProducts = async () => {
   try {
     const products = await Product.getProducts();
-    return products;
+    return { statusCode: 200, message: products };
   } catch (err) {
-    console.log('Erro no service getProducts', err.messag);
+    console.log(err);
+    return { statusCode: 500, message: 'Internal server error' };
   }
 };
 
