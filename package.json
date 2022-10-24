@@ -1,27 +1,18 @@
 {
-  "name": "sd-0x-store-manager",
+  "name": "store-manager",
   "version": "1.0.0",
-  "description": "Simple CRUD to sales and products",
+  "description": "CRUD com Mysql e NodeJS para vendas de produtos",
   "main": "index.js",
   "scripts": {
-    "posttest": "node ./test/restoreDb.js",
-    "test": "jest --runInBand --testTimeout=60000",
-    "test:mocha": "nyc --all --include models --include services --include controllers mocha test/unit/**/*.js --exit",
-    "start": "nodemon index.js",
-    "debug": "nodemon --ignore coverage index.js",
+    "dev": "npm run db:reset && nodemon index.js",
+    "test": "mocha ./tests/unit/**/*.test.js",
+    "test:coverage": "nyc npm run test",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
-    "restore": "node ./test/restoreDb.js"
+    "db:reset": "node ./database/restoreDb.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tryber/sd-02-project-store-manager.git"
-  },
-  "author": "",
+  "author": "rafaelimaf",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tryber/sd-02-project-store-manager/issues"
-  },
-  "homepage": "https://github.com/tryber/sd-02-project-store-manager#readme",
+  "homepage": "https://github.com/rafaelimaf/store-manager",
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@joi/date": "^2.1.0",
@@ -36,12 +27,10 @@
     "chai": "^4.3.4",
     "eslint-config-trybe-backend": "^1.0.3",
     "frisby": "^2.1.2",
-    "jest": "^26.4.1",
     "mocha": "^8.4.0",
     "mysql-import": "^5.0.21",
     "nodemon": "^2.0.16",
     "nyc": "^15.1.0",
-    "sinon": "^11.1.1",
-    "supertest": "^6.2.2"
+    "sinon": "^11.1.1"
   }
 }
