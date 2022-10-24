@@ -7,7 +7,8 @@
     "dev": "nodemon ./src/index.js",
     "test": "mocha ./src/tests/unit/**/*.test.js",
     "test:coverage": "nyc npm run test",
-    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx"
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
+    "db:reset": "node ./src/database/resetDatabase.js"
   },
   "author": "rafaelimaf",
   "license": "ISC",
