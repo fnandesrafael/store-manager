@@ -6,7 +6,7 @@ const createProduct = async (payload) => {
     await productSchema.validateAsync(payload);
   } catch (err) {
     console.log(err);
-    const statusCode = err.details[0].message.split(',')[0];
+    const statusCode = Number(err.details[0].message.split(',')[0]);
     const message = err.details[0].message.split(',')[1];
 
     return { statusCode, message: { message } };
@@ -62,10 +62,10 @@ const deleteProduct = async (id) => {
   return { statusCode: 204 };
 };
   
-  module.exports = {
-    createProduct,
-    getProducts,
-    getProductById,
-    editProduct,
-    deleteProduct,
-  };
+module.exports = {
+  createProduct,
+  getProducts,
+  getProductById,
+  editProduct,
+  deleteProduct,
+};
