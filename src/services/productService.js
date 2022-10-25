@@ -3,9 +3,9 @@ const { ProductNotFound } = require('../error/errorCatalog');
 const { productSchema } = require('../utils/joiSchemas');
 
 const createProduct = async (payload) => {
-  const validatedProduct = await productSchema.validateAsync(payload);
+  const validatedPayload = await productSchema.validateAsync(payload);
 
-  if (validatedProduct) {
+  if (validatedPayload) {
     const product = await Product.createProduct(payload);
     
     return product;
@@ -29,23 +29,15 @@ const getProductById = async (id) => {
 };
 
 const editProduct = async (id, payload) => {
-  try {
-    await productSchema.validateAsync(payload);
-  } catch (err) {
-    console.log(err);
-    const statusCode = err.details[0].message.split(',')[0];
-    const message = err.details[0].message.split(',')[1];
-
-    return { statusCode, message: { message } };
-  }
+  const validatedPayload = await productSchema.validateAsync(payload);
   
-  const product = await Product.editProduct(id, payload);
-
-  if (product.affectedRows === 0) {
-    return { statusCode: 404, message: { message: 'Product not found' } };
+  if (validatedPayload) {
+     const product = await Product.editProduct(id, payload);
+     
+     if (product.affectedRows === 0) {
+       throw ProductNotFound;
+     } return { id, ...payload };
   }
-  
-  return { statusCode: 200, message: { id, ...payload } };
 };
 
 const deleteProduct = async (id) => {

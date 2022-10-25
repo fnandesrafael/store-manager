@@ -33,7 +33,7 @@ const editProduct = async (req, res) => {
 
   const response = await productService.editProduct(id, payload);
   
-  return res.status(response.statusCode).json(response.message);
+  return res.status(200).json(response);
 };
 
 const deleteProduct = async (req, res) => {
