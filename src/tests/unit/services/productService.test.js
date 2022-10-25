@@ -138,7 +138,7 @@ describe('02 - Testa a service productService', () => {
   describe('quando é atualizado um produto em específico', () => {
     describe('e o produto está cadastrado no banco de dados', () => {
       before(() => {
-        sinon.stub(Product, 'editProduct').resolves([{ affectedRows: 1 }, undefined]);
+        sinon.stub(Product, 'editProduct').resolves({ affectedRows: 1 });
       });
 
       after(() => {
@@ -158,7 +158,7 @@ describe('02 - Testa a service productService', () => {
 
     describe('e o produto não está cadastrado no banco de dados', () => {
       before(() => {
-        sinon.stub(Product, 'editProduct').resolves([{ affectedRows: 0 }, undefined]);
+        sinon.stub(Product, 'editProduct').resolves({ affectedRows: 0 });
       });
 
       after(() => {
@@ -174,6 +174,42 @@ describe('02 - Testa a service productService', () => {
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
+        }
+      });
+    });
+  });
+
+  describe('quando um produto em específico é deletado', () => {
+    describe('e o produto está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(Product, 'deleteProduct').resolves({ affectedRows: 1 });
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado true', async () => {
+        const sut = await productService.deleteProduct(1)
+
+        expect(sut).to.be.true
+      });
+    });
+
+    describe('e o produto não está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(Product, 'deleteProduct').resolves({ affectedRows: 0 });
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await productService.deleteProduct(1)
+        } catch(err) {
+          expect(err.isCataloged).to.be.true
         }
       });
     });

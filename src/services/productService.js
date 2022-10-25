@@ -45,7 +45,7 @@ const deleteProduct = async (id) => {
 
   if (product.affectedRows === 0) {
     throw ProductNotFound;
-  }
+  } return true;
 };
   
 module.exports = {
