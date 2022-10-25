@@ -5,13 +5,13 @@ const createProduct = async (req, res) => {
 
   const response = await productService.createProduct({ name, quantity });
   
-  return res.status(response.statusCode).json(response.message);
+  return res.status(201).json(response);
 };
 
 const getProducts = async (_req, res) => {
   const response = await productService.getProducts();
   
-  return res.status(response.statusCode).json(response.message);
+  return res.status(200).json(response);
 };
 
 const getProductById = async (req, res) => {

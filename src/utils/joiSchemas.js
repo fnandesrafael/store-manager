@@ -5,17 +5,17 @@ const productSchema = Joi.object({
     .required()
     .min(5)
     .messages({
-      'any.required': '400,"name" is required',
-      'string.min': '422,"name" length must be at least 5 characters long',
-      'string.base': '400,"name" must be a string',
+      'any.required': '"name" is required',
+      'string.min': '"name" length must be at least 5 characters long',
+      'string.base': '"name" must be a string',
     }),
   quantity: Joi.number()
     .required()
     .min(1)
     .messages({
-      'any.required': '400,"quantity" is required',
-      'number.min': '422,"quantity" must be greater than or equal to 1',
-      'number.base': '400,"quantity" must be a number',
+      'any.required': '"quantity" is required',
+      'number.min': '"quantity" must be greater than or equal to 1',
+      'number.base': '"quantity" must be a number',
     }),
 });
 
@@ -24,14 +24,14 @@ const saleSchema = Joi.array().items(
     productId: Joi.number()
       .required()
       .messages({
-        'any.required': '400,"productId" is required',
+        'any.required': '"productId" is required',
       }),
     quantity: Joi.number()
       .min(1)
       .required()
       .messages({
-        'any.required': '400,"quantity" is required',
-        'number.min': '422,"quantity" must be greater than or equal to 1',
+        'any.required': '"quantity" is required',
+        'number.min': '"quantity" must be greater than or equal to 1',
       }),
   }),
 );

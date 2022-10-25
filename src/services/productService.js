@@ -2,24 +2,19 @@ const Product = require('../database/models/Product');
 const { productSchema } = require('../utils/joiSchemas');
 
 const createProduct = async (payload) => {
-  try {
-    await productSchema.validateAsync(payload);
-  } catch (err) {
-    console.log(err);
-    const statusCode = Number(err.details[0].message.split(',')[0]);
-    const message = err.details[0].message.split(',')[1];
+  const validatedProduct = await productSchema.validateAsync(payload);
 
-    return { statusCode, message: { message } };
+  if (validatedProduct) {
+    const product = await Product.createProduct(payload);
+    
+    return product;
   }
-
-  const product = await Product.createProduct(payload);
-  
-  return { statusCode: 201, message: product };
 };
 
 const getProducts = async () => {
   const products = await Product.getProducts();
-  return { statusCode: 200, message: products };
+  
+  return products;
 };
 
 const getProductById = async (id) => {
