@@ -124,11 +124,13 @@ describe('02 - Testa a service productService', () => {
         sinon.restore()
       })
       
-      it('é retornado um array vazio', async () => {
-        const sut = await productService.getProductById(1)
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await productService.getProductById(1)
+        } catch(err) {
 
-        expect(sut).to.be.an('array')
-        expect(sut).to.be.empty
+          expect(err.isCataloged).to.be.true;
+        }
       });
     });
   });

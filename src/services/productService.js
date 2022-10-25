@@ -21,7 +21,7 @@ const getProducts = async () => {
 const getProductById = async (id) => {
   const [product] = await Product.getProductById(id);
 
-  if (!product) {
+  if (product.length === 0) {
     throw ProductNotFound;
   }
   
