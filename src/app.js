@@ -1,4 +1,6 @@
 const express = require('express');
+require('express-async-errors');
+const errorHandler = require('./middlewares/errorMiddleware');
 const Router = require('./routes/index');
 
 const app = express();
@@ -11,5 +13,6 @@ app.get('/', (_req, res) => {
 
 app.use('/products', Router.productsRouter);
 app.use('/sales', Router.salesRouter);
+app.use(errorHandler);
 
 module.exports = app;
