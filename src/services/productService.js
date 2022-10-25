@@ -1,4 +1,5 @@
 const Product = require('../database/models/Product');
+const { ProductNotFound } = require('../error/errorCatalog');
 const { productSchema } = require('../utils/joiSchemas');
 
 const createProduct = async (payload) => {
@@ -21,10 +22,10 @@ const getProductById = async (id) => {
   const [product] = await Product.getProductById(id);
 
   if (!product) {
-    return { statusCode: 404, message: { message: 'Product not found' } };
+    throw ProductNotFound;
   }
   
-  return { statusCode: 200, message: product };
+  return product;
 };
 
 const editProduct = async (id, payload) => {

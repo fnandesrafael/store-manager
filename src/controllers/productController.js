@@ -19,7 +19,7 @@ const getProductById = async (req, res) => {
 
   const response = await productService.getProductById(id);
   
-  return res.status(response.statusCode).json(response.message);
+  return res.status(200).json(response);
 };
 
 const editProduct = async (req, res) => {
