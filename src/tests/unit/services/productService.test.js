@@ -3,9 +3,9 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
-const { newProductMock } = require('../../mocks/Product');
+const { newProductMock, newProductPayload } = require('../../mocks/Product');
 
-describe('Testa a camada productService', () => {
+describe('02 - Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
     describe('e o corpo da requisição é inválido', () => {
       before(() => {
@@ -16,17 +16,13 @@ describe('Testa a camada productService', () => {
         sinon.restore();
       });
       
-      it('é retornado um objeto, com as chaves: "statusCode" e "message"', async () => {
-        const sut = await productService.createProduct({})
-
-        expect(sut).to.be.an('object')
-        expect(sut).to.have.all.keys('statusCode', 'message')
-      });
-
-      it('a chave "statusCode" possui o valor 400', async () => {
-        const sut = await productService.createProduct({})
-
-        expect(sut.statusCode).to.be.equal(400)
+      it('é disparado um erro de validação Joi', async () => {
+        try {
+          await productService.createProduct({})
+        } catch (err) {
+          
+          expect(err.isJoi).to.be.true
+        }
       });
     })
 
@@ -39,18 +35,18 @@ describe('Testa a camada productService', () => {
         sinon.restore();
       });
       
-      it('é retornado um objeto, com as chaves: "statusCode" e "message"', async () => {
-        const sut = await productService.createProduct({})
+      it('é retornado um objeto', async () => {
+        const sut = await productService.createProduct(newProductPayload)
 
         expect(sut).to.be.an('object')
-        expect(sut).to.have.all.keys('statusCode', 'message')
       });
 
-      it('a chave "statusCode" possui o valor 201', async () => {
-        const sut = await productService.createProduct({ name: 'Martelo de Thor', quantity: 10 })
+      it('o objeto retornado possui as mesmas chaves da requisição, além de uma chave "id"',
+      async () => {
+        const sut = await productService.createProduct(newProductPayload)
 
-        expect(sut.statusCode).to.be.equal(201)
+        expect(sut).to.have.all.keys('id', 'name', 'quantity')
       });
-    })
+    });
   });
 });

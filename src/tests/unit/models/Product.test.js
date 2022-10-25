@@ -6,11 +6,12 @@ const {
   newProductMock,
   allProductsMock,
   searchedProductMock,
-  updatedProductMock
+  updatedProductMock,
+  newProductPayload
 } = require('../../mocks/Product');
 const Product = require('../../../database/models/Product')
 
-describe('Testa a model Product', () => {
+describe('01 - Testa a model Product', () => {
   describe('quando é criado um novo produto com sucesso', () => {
     before(() => {
       sinon.stub(connection, 'query').resolves([{ insertId: 0 }, undefined])
@@ -21,13 +22,13 @@ describe('Testa a model Product', () => {
     })
     
     it('é retornado um objeto', async () => {
-      const sut = await Product.createProduct(newProductMock)
+      const sut = await Product.createProduct(newProductPayload)
 
       expect(sut).to.be.an('object')
     });
 
     it('o objeto contém as chaves: "id", "name", e "quantity"', async () => {
-      const sut = await Product.createProduct(newProductMock)
+      const sut = await Product.createProduct(newProductPayload)
 
       expect(sut).to.have.all.keys('id', 'name', 'quantity')
     });

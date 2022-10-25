@@ -1,4 +1,10 @@
+const newProductPayload = {
+  name: 'Martelo de Thor',
+  quantity: 10
+}
+
 const newProductMock = {
+  id: 1,
   name: 'Martelo de Thor',
   quantity: 10
 }
@@ -34,6 +40,7 @@ const updatedProductMock = {
 }
 
 module.exports = {
+  newProductPayload,
   newProductMock,
   allProductsMock,
   searchedProductMock,
