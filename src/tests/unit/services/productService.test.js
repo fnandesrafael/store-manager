@@ -3,7 +3,7 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
-const { newProductMock, newProductPayload, allProductsMock, searchedProductMock } = require('../../mocks/Product');
+const { newProductMock, newProductPayload, allProductsMock, searchedProductMock, updatedProductMock } = require('../../mocks/Product');
 
 describe('02 - Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
@@ -127,6 +127,50 @@ describe('02 - Testa a service productService', () => {
       it('é disparado um erro catalogado', async () => {
         try {
           await productService.getProductById(1)
+        } catch(err) {
+
+          expect(err.isCataloged).to.be.true;
+        }
+      });
+    });
+  });
+
+  describe('quando é atualizado um produto em específico', () => {
+    describe('e o produto está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(Product, 'editProduct').resolves([{ affectedRows: 1 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado um objeto com uma linha atualizada', async () => {
+        const sut = await productService.editProduct(1, {
+          name: 'Machado de Thor',
+          quantity: 15
+        })
+
+        expect(sut).to.be.an('object')
+        expect(sut).to.be.deep.equal(updatedProductMock)
+      });
+    });
+
+    describe('e o produto não está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(Product, 'editProduct').resolves([{ affectedRows: 0 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await productService.editProduct(1, {
+            name: 'Machado de Thor',
+            quantity: 15
+          })
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
