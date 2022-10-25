@@ -3,13 +3,11 @@ const { ProductNotFound } = require('../error/errorCatalog');
 const { productSchema } = require('../utils/joiSchemas');
 
 const createProduct = async (payload) => {
-  const validatedPayload = await productSchema.validateAsync(payload);
+  await productSchema.validateAsync(payload);
 
-  if (validatedPayload) {
-    const product = await Product.createProduct(payload);
-    
-    return product;
-  }
+  const product = await Product.createProduct(payload);
+  
+  return product;
 };
 
 const getProducts = async () => {
@@ -29,15 +27,13 @@ const getProductById = async (id) => {
 };
 
 const editProduct = async (id, payload) => {
-  const validatedPayload = await productSchema.validateAsync(payload);
+  await productSchema.validateAsync(payload);
   
-  if (validatedPayload) {
-     const product = await Product.editProduct(id, payload);
-     
-     if (product.affectedRows === 0) {
-       throw ProductNotFound;
-     } return { id, ...payload };
-  }
+  const product = await Product.editProduct(id, payload);
+  
+  if (product.affectedRows === 0) {
+    throw ProductNotFound;
+  } return { id, ...payload };
 };
 
 const deleteProduct = async (id) => {
