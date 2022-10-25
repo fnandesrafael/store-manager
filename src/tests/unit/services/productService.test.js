@@ -3,32 +3,15 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
+const { productSchema } = require('../../../utils/joiSchemas');
 const { newProductMock, newProductPayload, allProductsMock, searchedProductMock, updatedProductMock } = require('../../mocks/Product');
 
 describe('02 - Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
-    describe('e o corpo da requisição é inválido', () => {
-      before(() => {
-        sinon.stub(Product, 'createProduct').returns(newProductMock)
-      });
-
-      after(() => {
-        sinon.restore();
-      });
-      
-      it('é disparado um erro de validação Joi', async () => {
-        try {
-          await productService.createProduct({})
-        } catch (err) {
-          
-          expect(err.isJoi).to.be.true
-        }
-      });
-    })
-
     describe('e o corpo da requisição é válido', () => {
       before(() => {
-        sinon.stub(Product, 'createProduct').returns(newProductMock)
+        sinon.stub(Product, 'createProduct').resolves(newProductMock)
+        sinon.stub(productSchema, 'validateAsync').resolves(newProductPayload)
       });
 
       after(() => {
@@ -48,6 +31,28 @@ describe('02 - Testa a service productService', () => {
         expect(sut).to.have.all.keys('id', 'name', 'quantity')
       });
     });
+    
+    describe('e o corpo da requisição é inválido', () => {
+      before(() => {
+        sinon.stub(Product, 'createProduct').resolves(newProductMock)
+        sinon.stub(productSchema, 'validateAsync').throws({
+          isJoi: true
+        })
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro de validação Joi', async () => {
+        try {
+          await productService.createProduct({})
+        } catch (err) {
+          
+          expect(err.isJoi).to.be.true
+        }
+      });
+    })
   });
 
   describe('quando são buscados todos os produtos com sucesso', () => {
@@ -139,6 +144,7 @@ describe('02 - Testa a service productService', () => {
     describe('e o produto está cadastrado no banco de dados', () => {
       before(() => {
         sinon.stub(Product, 'editProduct').resolves({ affectedRows: 1 });
+        sinon.stub(productSchema, 'validateAsync').resolves(newProductPayload)
       });
 
       after(() => {
@@ -155,6 +161,29 @@ describe('02 - Testa a service productService', () => {
         expect(sut).to.be.deep.equal(updatedProductMock)
       });
     });
+
+    describe(`e o produto está cadastrado no banco de dados, mas o corpo
+    da requisição é invalido`, async () => {
+      before(() => {
+        sinon.stub(Product, 'editProduct').resolves({ affectedRows: 0 });
+        sinon.stub(productSchema, 'validateAsync').throws({
+          isJoi: true,
+        })
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é disparado um erro de validação Joi', async () => {
+        try {
+          await productService.editProduct(1, {})
+        } catch (err) {
+          
+          expect(err.isJoi).to.be.true
+        }
+      });
+    })
 
     describe('e o produto não está cadastrado no banco de dados', () => {
       before(() => {
