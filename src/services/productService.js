@@ -44,10 +44,8 @@ const deleteProduct = async (id) => {
   const product = await Product.deleteProduct(id);
 
   if (product.affectedRows === 0) {
-    return { statusCode: 404, message: { message: 'Product not found' } };
+    throw ProductNotFound;
   }
-
-  return { statusCode: 204 };
 };
   
 module.exports = {
