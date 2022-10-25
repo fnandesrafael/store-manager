@@ -3,7 +3,7 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
-const { newProductMock, newProductPayload, allProductsMock } = require('../../mocks/Product');
+const { newProductMock, newProductPayload, allProductsMock, searchedProductMock } = require('../../mocks/Product');
 
 describe('02 - Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
@@ -85,6 +85,47 @@ describe('02 - Testa a service productService', () => {
 
       it('é retornado um array vazio', async () => {
         const sut = await productService.getProducts()
+
+        expect(sut).to.be.an('array')
+        expect(sut).to.be.empty
+      });
+    });
+  });
+
+  describe('quando é buscado um produto em específico', () => {
+    describe('e o produto está cadastrado no banco de dados', async () => {
+      before(() => {
+        sinon.stub(Product, 'getProductById').resolves([searchedProductMock])
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+
+      it('é retornado o produto pesquisado', async () => {
+        const sut = await productService.getProductById(1)
+
+        expect(sut).to.be.deep.equal(searchedProductMock)
+      });
+
+      it('o produto possui as chaves "id", "name" e "quantity"', async () => {
+        const sut = await productService.getProductById(1)
+
+        expect(sut).to.have.all.keys('id', 'name', 'quantity')
+      });
+    });
+
+    describe('mas o produto não está cadastrado no banco de dados', async () => {
+      before(() => {
+        sinon.stub(Product, 'getProductById').resolves([[]])
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+      
+      it('é retornado um array vazio', async () => {
+        const sut = await productService.getProductById(1)
 
         expect(sut).to.be.an('array')
         expect(sut).to.be.empty
