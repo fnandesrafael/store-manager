@@ -1,22 +1,19 @@
 const connection = require('../connection');
 
 const createSale = async (sales) => {
-  try {
-    const [saleRegistry] = await connection.query(`
-      INSERT INTO StoreManager.sales
-      VALUES()
-    `);
-    await sales.forEach((sale) => (
-      connection.query(`
-        INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
-        VALUES (?, ?, ?)
-      `, [saleRegistry.insertId, sale.productId, sale.quantity])
-    ));
-    const createdSale = { id: saleRegistry.insertId, itemsSold: sales };
-    return createdSale;
-  } catch (err) {
-    console.log('Erro na model createSale', err.message);
-  }
+  const [queryResult] = await connection.query(`
+    INSERT INTO StoreManager.sales
+    VALUES()
+  `);
+
+  await sales.forEach((sale) => (
+    connection.query(`
+      INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+      VALUES (?, ?, ?)
+    `, [queryResult.insertId, sale.productId, sale.quantity])
+  ));
+  
+  return { id: queryResult.insertId, itemsSold: sales };
 };
 
 const getSales = async () => {
