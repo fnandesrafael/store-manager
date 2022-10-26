@@ -11,7 +11,7 @@ const {
 } = require('../../mocks/Product');
 const Product = require('../../../database/models/Product')
 
-describe('01 - Testa a model Product', () => {
+describe('Testa a model Product', () => {
   describe('quando é criado um novo produto com sucesso', () => {
     before(() => {
       sinon.stub(connection, 'query').resolves([{ insertId: 0 }, undefined])

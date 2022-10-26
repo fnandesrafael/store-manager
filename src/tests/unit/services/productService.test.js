@@ -6,7 +6,7 @@ const productService = require('../../../services/productService');
 const { productSchema } = require('../../../utils/joiSchemas');
 const { newProductMock, newProductPayload, allProductsMock, searchedProductMock, updatedProductMock } = require('../../mocks/Product');
 
-describe('02 - Testa a service productService', () => {
+describe('Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
     describe('e o corpo da requisição é válido', () => {
       before(() => {
