@@ -1,5 +1,4 @@
 const Sale = require('../database/models/Sale');
-const { ProductSoldOut } = require('../error/errorCatalog');
 const { saleSchema } = require('../utils/joiSchemas');
 const productService = require('./productService');
 
