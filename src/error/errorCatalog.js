@@ -4,6 +4,13 @@ const ProductNotFound = {
   isCataloged: true,
 };
 
+const InvalidQuantity = {
+  statusCode: 400,
+  message: 'Order quantity for some products exceeds stock',
+  isCataloged: true,
+};
+
 module.exports = {
   ProductNotFound,
+  InvalidQuantity,
 };

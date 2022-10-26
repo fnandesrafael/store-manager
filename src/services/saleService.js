@@ -1,4 +1,19 @@
 const Sale = require('../database/models/Sale');
+const { ProductSoldOut } = require('../error/errorCatalog');
+const { saleSchema } = require('../utils/joiSchemas');
+const productService = require('./productService');
+
+const createSale = async (payload) => {
+  await saleSchema.validateAsync(payload);
+
+  await Promise.all(payload.map(async (sale) => {
+    await productService.verifyProductQuantity(sale);
+  }));
+
+  const sale = await Sale.createSale(payload);
+  
+  return sale;
+};
 
 const getSales = async () => {
   try {
@@ -15,15 +30,6 @@ const getSaleById = async (id) => {
     return sale;
   } catch (err) {
     console.log('Erro no service getSaleById', err.message);
-  }
-};
-
-const createSale = async (sales) => {
-  try {
-    const createdSale = await Sale.createSale(sales);
-    return createdSale;
-  } catch (err) {
-    console.log('Erro no service createSale', err.message);
   }
 };
 
@@ -46,9 +52,9 @@ const deleteSale = async (id) => {
 };
 
 module.exports = {
+  createSale,
   getSales,
   getSaleById,
-  createSale,
   editSale,
   deleteSale,
 };

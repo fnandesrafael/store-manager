@@ -1,5 +1,5 @@
 const Product = require('../database/models/Product');
-const { ProductNotFound } = require('../error/errorCatalog');
+const { ProductNotFound, InvalidQuantity } = require('../error/errorCatalog');
 const { productSchema } = require('../utils/joiSchemas');
 
 const createProduct = async (payload) => {
@@ -17,13 +17,13 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const [product] = await Product.getProductById(id);
+  const product = await Product.getProductById(id);
 
   if (product.length === 0) {
     throw ProductNotFound;
   }
   
-  return product;
+  return product[0];
 };
 
 const editProduct = async (id, payload) => {
@@ -43,6 +43,19 @@ const deleteProduct = async (id) => {
     throw ProductNotFound;
   } return true;
 };
+
+const verifyProductQuantity = async (sale) => {
+  const product = await getProductById(sale.productId);
+  
+  if ((product.quantity - sale.quantity) <= 0) throw InvalidQuantity;
+
+  const payload = {
+    name: product.name,
+    quantity: product.quantity - sale.quantity,
+  };
+
+  await editProduct(sale.productId, payload);
+};
   
 module.exports = {
   createProduct,
@@ -50,4 +63,5 @@ module.exports = {
   getProductById,
   editProduct,
   deleteProduct,
+  verifyProductQuantity,
 };
