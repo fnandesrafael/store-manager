@@ -1,7 +1,7 @@
 const connection = require('../connection');
 
-const createProduct = async (payload) => {
-  const { name, quantity } = payload;
+const createProduct = async (product) => {
+  const { name, quantity } = product;
   const queryResult = await connection.query(`
     INSERT INTO StoreManager.products (name, quantity)
     VALUES(?, ?)
@@ -28,8 +28,8 @@ const getProductById = async (id) => {
   return queryResult;
 };
 
-const editProduct = async (id, payload) => {
-  const { name, quantity } = payload;
+const editProduct = async (id, product) => {
+  const { name, quantity } = product;
   
   const [queryResult] = await connection.query(`
     UPDATE StoreManager.products

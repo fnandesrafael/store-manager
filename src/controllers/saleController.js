@@ -1,5 +1,13 @@
 const saleService = require('../services/saleService');
 
+const createSale = async (req, res) => {
+  const sales = req.body;
+
+  const response = await saleService.createSale(sales);
+  
+  return res.status(201).json(response);
+};
+
 const getSales = async (_req, res) => {
   try {
     const sales = await saleService.getSales();
@@ -18,18 +26,6 @@ const getSaleById = async (req, res) => {
       : res.status(404).json({ message: 'Sale not found' });
   } catch (err) {
     console.log('Erro no controller getSaleById', err.message);
-  }
-};
-
-const createSale = async (req, res) => {
-  const sales = req.body;
-
-  try {
-    const createdSale = await saleService.createSale(sales);
-    return res.status(201).json(createdSale);
-  } catch (err) {
-    console.log('Erro no controller postSale', err.message);
-    return res.status(400).json({ message: 'Error while trying to registry your sale' });
   }
 };
 
@@ -58,9 +54,9 @@ const deleteSale = async (req, res) => {
 };
 
 module.exports = {
+  createSale,
   getSales,
   getSaleById,
-  createSale,
   editSale,
   deleteSale,
 };
