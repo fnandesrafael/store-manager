@@ -116,4 +116,31 @@ describe('Testa o controller productController', () => {
       expect((res.json).calledWith(updatedProductMock)).to.be.true;
     });
   });
+
+  describe('quando um produto em específico é deletado', () => {
+    before(() => {
+      sinon.stub(productService, 'deleteProduct').resolves(true);
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns(res);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+    
+    it('o método status é chamado com o valor 204', async () => {
+      req.params = { id: 1 };
+      await productController.deleteProduct(req, res);
+
+      expect((res.status).calledWith(204)).to.be.true;
+    });
+
+    it('o método json é chamado sem nenhum conteúdo', async () => {
+      req.params = { id: 1 };
+      await productController.deleteProduct(req, res);
+
+      expect((res.json).calledWith()).to.be.true;
+    });
+  });
 });
