@@ -13,10 +13,10 @@ jobs:
         node-version: 14
     
     - name: Instalando dependências
-      run: npm ci
+      run: npm install
 
     - name: Executando ESlint
-      run: npm run lint .
+      run: npx eslint .
   
   evaluator-unit:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         node-version: 14
 
     - name: Instalando dependências
-      run: npm ci
+      run: npm install
 
     - name: Executando testes unitários
       uses: npm run test:dev:unit
