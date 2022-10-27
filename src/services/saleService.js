@@ -42,11 +42,11 @@ const editSale = async (id, payload) => {
 };
 
 const deleteSale = async (id) => {
-  const sale = await Sale.deleteSale(id);
+  const [sale] = await Sale.deleteSale(id);
   
-  if (sale.length === 0) throw ProductNotFound;
+  if (sale.affectedRows === 0) throw ProductNotFound;
 
-  return sale;
+  return true;
 };
 
 module.exports = {

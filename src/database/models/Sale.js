@@ -52,15 +52,6 @@ const editSale = async (id, sales) => {
 
 const deleteSale = async (id) => {
   const [queryResult] = await connection.query(`
-    SELECT * FROM StoreManager.sales
-    WHERE id = ?
-  `, [id]);
-  
-  if (queryResult.length === 0) {
-    return [];
-  }
-  
-  await connection.query(`
     DELETE FROM StoreManager.sales
     WHERE id = ?
   `, [id]);
