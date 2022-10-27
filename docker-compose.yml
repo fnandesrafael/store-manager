@@ -3,7 +3,7 @@ version: "3"
 services:
   node:
     image: node:16
-    container_name: store_manager
+    container_name: store_manager_api
     tty: true
     stdin_open: true
     command: bash
