@@ -39,24 +39,15 @@ const getSaleById = async (id) => {
 };
 
 const editSale = async (id, sales) => {
-  const [queryResult] = await connection.query(`
-    SELECT * FROM StoreManager.sales_products
-    WHERE sale_id = ?
-  `, [id]);
-
-  if (queryResult.length === 0) {
-    return [];
-  }
-  
-  await sales.forEach((sale) => (
+  const [queryResult] = await Promise.all(sales.map(async (sale) => (
     connection.query(`
       UPDATE StoreManager.sales_products
       SET product_id = ?, quantity = ?
       WHERE sale_id = ?
     `, [sale.productId, sale.quantity, id])
-  ));
+  )));
 
-  return { saleId: id, itemUpdated: sales };
+  return queryResult;
 };
 
 const deleteSale = async (id) => {
