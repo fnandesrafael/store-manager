@@ -3,7 +3,6 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
-const { productSchema } = require('../../../utils/joiSchemas');
 const { newProductMock, newProductPayload, allProductsMock, searchedProductMock, updatedProductMock } = require('../../mocks/Product');
 
 describe('Testa a service productService', () => {
@@ -11,7 +10,6 @@ describe('Testa a service productService', () => {
     describe('e o corpo da requisição é válido', () => {
       before(() => {
         sinon.stub(Product, 'createProduct').resolves(newProductMock)
-        sinon.stub(productSchema, 'validateAsync').resolves(newProductPayload)
       });
 
       after(() => {
@@ -35,9 +33,6 @@ describe('Testa a service productService', () => {
     describe('e o corpo da requisição é inválido', () => {
       before(() => {
         sinon.stub(Product, 'createProduct').resolves(newProductMock)
-        sinon.stub(productSchema, 'validateAsync').throws({
-          isJoi: true
-        })
       });
 
       after(() => {
@@ -144,7 +139,6 @@ describe('Testa a service productService', () => {
     describe('e o produto está cadastrado no banco de dados', () => {
       before(() => {
         sinon.stub(Product, 'editProduct').resolves({ affectedRows: 1 });
-        sinon.stub(productSchema, 'validateAsync').resolves(newProductPayload)
       });
 
       after(() => {
@@ -166,9 +160,6 @@ describe('Testa a service productService', () => {
     da requisição é invalido`, async () => {
       before(() => {
         sinon.stub(Product, 'editProduct').resolves({ affectedRows: 0 });
-        sinon.stub(productSchema, 'validateAsync').throws({
-          isJoi: true,
-        })
       });
 
       after(() => {

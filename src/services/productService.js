@@ -1,6 +1,6 @@
 const Product = require('../database/models/Product');
 const { ProductNotFound, InvalidQuantity } = require('../error/errorCatalog');
-const { productSchema } = require('../utils/joiSchemas');
+const productSchema = require('../database/schemas/productSchema');
 
 const createProduct = async (payload) => {
   await productSchema.validateAsync(payload);

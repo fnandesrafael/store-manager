@@ -1,6 +1,6 @@
 const Sale = require('../database/models/Sale');
 const { ProductNotFound } = require('../error/errorCatalog');
-const { saleSchema } = require('../utils/joiSchemas');
+const saleSchema = require('../database/schemas/saleSchema');
 const productService = require('./productService');
 
 const createSale = async (payload) => {
