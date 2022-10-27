@@ -3,10 +3,8 @@ const { describe } = require('mocha');
 const sinon = require('sinon')
 const connection = require('../../../database/connection')
 const {
-  newProductMock,
   allProductsMock,
   searchedProductMock,
-  updatedProductMock,
   newProductPayload
 } = require('../../mocks/Product');
 const Product = require('../../../database/models/Product')
