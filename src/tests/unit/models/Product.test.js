@@ -1,18 +1,18 @@
 const { expect } = require('chai');
 const { describe } = require('mocha');
-const sinon = require('sinon')
-const connection = require('../../../database/connection')
+const sinon = require('sinon');
+const connection = require('../../../database/connection');
 const {
   allProductsMock,
   searchedProductMock,
   newProductPayload
 } = require('../../mocks/Product');
-const Product = require('../../../database/models/Product')
+const Product = require('../../../database/models/Product');
 
 describe('Testa a model Product', () => {
   describe('quando é criado um novo produto com sucesso', () => {
     before(() => {
-      sinon.stub(connection, 'query').resolves([{ insertId: 0 }, undefined])
+      sinon.stub(connection, 'query').resolves([{ insertId: 1 }, undefined])
     })
   
     after(() => {
