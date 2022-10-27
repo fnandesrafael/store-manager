@@ -146,4 +146,40 @@ describe('Testa a model Sale', () => {
       });
     });
   });
+
+  describe('quando uma venda em específica é deletada', () => {
+    describe('e a venda está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([{ affectedRows: 1 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado um objeto com uma linha atualizada', async () => {
+        const sut = await Sale.deleteSale(1)
+
+        expect(sut).to.be.an('object')
+        expect(sut.affectedRows).to.be.equal(1)
+      });
+    });
+
+    describe('e a venda não está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([{ affectedRows: 0 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado um objeto com nenhuma linha atualizada', async () => {
+        const sut = await Sale.deleteSale(1)
+
+        expect(sut).to.be.an('object')
+        expect(sut.affectedRows).to.be.equal(0)
+      });
+    });
+  });
 });
