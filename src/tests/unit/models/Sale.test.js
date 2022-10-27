@@ -92,5 +92,22 @@ describe('Testa a model Sale', () => {
         expect(sut[0]).to.have.all.keys('date', 'saleId', 'productId', 'quantity');
       });
     });
+
+    describe('e a venda não está cadastrada no banco de dados', async () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([[]])
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+
+      it('é retornado uma array vazio', async () => {
+        const sut = await Sale.getSaleById(1);
+
+        expect(sut).to.be.an('array');
+        expect(sut).to.be.empty;
+      });
+    });
   });
 });
