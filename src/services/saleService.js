@@ -1,4 +1,5 @@
 const Sale = require('../database/models/Sale');
+const { ProductNotFound } = require('../error/errorCatalog');
 const { saleSchema } = require('../utils/joiSchemas');
 const productService = require('./productService');
 
@@ -21,12 +22,13 @@ const getSales = async () => {
 };
 
 const getSaleById = async (id) => {
-  try {
-    const sale = await Sale.getSaleById(id);
-    return sale;
-  } catch (err) {
-    console.log('Erro no service getSaleById', err.message);
+  const sale = await Sale.getSaleById(id);
+
+  if (sale.length === 0) {
+    throw ProductNotFound;
   }
+
+  return sale;
 };
 
 const editSale = async (id, sales) => {
