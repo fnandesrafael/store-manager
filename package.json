@@ -7,7 +7,7 @@
     "db:reset": "node src/database/resetDatabase.js",
     "dev": "nodemon src/index.js",
     "test:dev:unit": "mocha src/tests/unit/**/*.test.js",
-    "test:dev:unit:coverage": "nyc npm run test:unit",
+    "test:dev:unit:coverage": "nyc npm run test:dev:unit",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx"
   },
   "author": "rafaelimaf",
