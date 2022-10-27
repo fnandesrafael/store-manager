@@ -10,7 +10,7 @@ const {
 const Product = require('../../../database/models/Product');
 
 describe('Testa a model Product', () => {
-  describe('quando é criado um novo produto com sucesso', () => {
+  describe('quando é criado um novo produto', () => {
     before(() => {
       sinon.stub(connection, 'query').resolves([{ insertId: 1 }, undefined])
     })
@@ -32,7 +32,7 @@ describe('Testa a model Product', () => {
     });
   });
 
-  describe('quando são buscados todos os produtos com sucesso', () => {
+  describe('quando são buscados todos os produtos', () => {
     describe('e existem cadastros no banco de dados', () => {
       before(() => {
         sinon.stub(connection, 'query').resolves([allProductsMock])
