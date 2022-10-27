@@ -15,12 +15,9 @@ const createSale = async (payload) => {
 };
 
 const getSales = async () => {
-  try {
-    const sales = await Sale.getSales();
-    return sales;
-  } catch (err) {
-    console.log('Erro no service getSales', err.messsage);
-  }
+  const sales = await Sale.getSales();
+  
+  return sales;
 };
 
 const getSaleById = async (id) => {

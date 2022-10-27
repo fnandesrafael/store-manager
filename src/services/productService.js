@@ -47,7 +47,7 @@ const deleteProduct = async (id) => {
 const verifyProductQuantity = async (sale) => {
   const product = await getProductById(sale.productId);
   
-  if ((product.quantity - sale.quantity) <= 0) throw InvalidQuantity;
+  if ((product.quantity - sale.quantity) < 0) throw InvalidQuantity;
 
   const payload = {
     name: product.name,

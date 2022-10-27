@@ -9,12 +9,9 @@ const createSale = async (req, res) => {
 };
 
 const getSales = async (_req, res) => {
-  try {
-    const sales = await saleService.getSales();
-    return res.status(200).json(sales);
-  } catch (err) {
-    console.log('Erro no controller getSales', err.message);
-  }
+  const sales = await saleService.getSales();
+  
+  return res.status(200).json(sales);
 };
 
 const getSaleById = async (req, res) => {

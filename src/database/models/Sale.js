@@ -17,17 +17,14 @@ const createSale = async (sales) => {
 };
 
 const getSales = async () => {
-  try {
-    const [sales] = await connection.query(`
-      SELECT DISTINCT date, 
-        sale_id AS saleId, product_id AS productId, quantity FROM StoreManager.sales_products
-      INNER JOIN StoreManager.sales
-      ORDER BY saleId, productId ASC
-    `);
-    return sales;
-  } catch (err) {
-    console.log('Erro na model getSales', err.message);
-  }
+  const [sales] = await connection.query(`
+    SELECT DISTINCT date, sale_id AS saleId, product_id AS productId, quantity
+    FROM StoreManager.sales_products
+    INNER JOIN StoreManager.sales ON id=sale_id
+    ORDER BY sale_id ASC
+  `);
+  
+  return sales;
 };
 
 const getSaleById = async (id) => {
