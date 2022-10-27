@@ -39,41 +39,42 @@ const getSaleById = async (id) => {
 };
 
 const editSale = async (id, sales) => {
-    const [queryResult] = await connection.query(`
-      SELECT * FROM StoreManager.sales_products
+  const [queryResult] = await connection.query(`
+    SELECT * FROM StoreManager.sales_products
+    WHERE sale_id = ?
+  `, [id]);
+
+  if (queryResult.length === 0) {
+    return [];
+  }
+  
+  await sales.forEach((sale) => (
+    connection.query(`
+      UPDATE StoreManager.sales_products
+      SET product_id = ?, quantity = ?
       WHERE sale_id = ?
-    `, [id]);
+    `, [sale.productId, sale.quantity, id])
+  ));
 
-    if (queryResult.length === 0) {
-      return [];
-    }
-    
-    await sales.forEach((sale) => (
-      connection.query(`
-        UPDATE StoreManager.sales_products
-        SET product_id = ?, quantity = ?
-        WHERE sale_id = ?
-      `, [sale.productId, sale.quantity, id])
-    ));
-
-    return { saleId: id, itemUpdated: sales };
+  return { saleId: id, itemUpdated: sales };
 };
 
 const deleteSale = async (id) => {
-  try {
-    const [verifiedSale] = await connection.query(`
-      SELECT * FROM StoreManager.sales
-      WHERE id = ?
-    `, [id]);
-    if (verifiedSale.length > 0) {
-      await connection.query(`
-        DELETE FROM StoreManager.sales
-        WHERE id = ?
-      `, [id]);
-    } return verifiedSale;
-  } catch (err) {
-    console.log('Erro na model deleteSale', err.message);
+  const [queryResult] = await connection.query(`
+    SELECT * FROM StoreManager.sales
+    WHERE id = ?
+  `, [id]);
+  
+  if (queryResult.length === 0) {
+    return [];
   }
+  
+  await connection.query(`
+    DELETE FROM StoreManager.sales
+    WHERE id = ?
+  `, [id]);
+
+  return queryResult;
 };
 
 module.exports = {

@@ -27,19 +27,16 @@ const editSale = async (req, res) => {
   const sales = req.body;
 
   const response = await saleService.editSale(id, sales);
+  
   return res.status(200).json(response);
 };
 
 const deleteSale = async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const deletedSale = await saleService.deleteSale(id);
-    return deletedSale.length > 0 ? res.status(204).send()
-      : res.status(404).json({ message: 'Sale not found' });
-  } catch (err) {
-    console.log('Erro no controller deleteSale', err.message);
-  }
+  await saleService.deleteSale(id);
+  
+  return res.status(204).send();
 };
 
 module.exports = {

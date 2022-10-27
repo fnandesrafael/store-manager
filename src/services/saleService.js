@@ -24,9 +24,7 @@ const getSales = async () => {
 const getSaleById = async (id) => {
   const sale = await Sale.getSaleById(id);
 
-  if (sale.length === 0) {
-    throw ProductNotFound;
-  }
+  if (sale.length === 0) throw ProductNotFound;
 
   return sale;
 };
@@ -36,9 +34,7 @@ const editSale = async (id, payload) => {
   
   const sale = await Sale.getSaleById(id);
 
-  if (sale.length === 0) {
-    throw ProductNotFound;
-  }
+  if (sale.length === 0) throw ProductNotFound;
 
   const editedSale = await Sale.editSale(id, payload);
   
@@ -46,12 +42,11 @@ const editSale = async (id, payload) => {
 };
 
 const deleteSale = async (id) => {
-  try {
-    const deletedSales = await Sale.deleteSale(id);
-    return deletedSales;
-  } catch (err) {
-    console.log('Erro no service deleteSale', err.message);
-  }
+  const sale = await Sale.deleteSale(id);
+  
+  if (sale.length === 0) throw ProductNotFound;
+
+  return sale;
 };
 
 module.exports = {
