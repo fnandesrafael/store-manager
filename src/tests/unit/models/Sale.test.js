@@ -5,7 +5,7 @@ const connection = require('../../../database/connection');
 const Sale = require('../../../database/models/Sale');
 const { newSalePayload, allSalesMock } = require('../../mocks/Sale');
 
-describe('Testa a model Sale', () => {
+describe.only('Testa a model Sale', () => {
   describe('quando é criada uma nova venda com sucesso', () => {
     before(() => {
       sinon.stub(connection, 'query').resolves([{ insertId: 1 }, undefined])
@@ -41,8 +41,6 @@ describe('Testa a model Sale', () => {
       it('é retornado um array de objetos', async () => {
         const sut = await Sale.getSales()
 
-        console.log(sut)
-
         expect(sut).to.be.an('array')
         expect(sut[0]).to.be.an('object')
       });
@@ -51,6 +49,23 @@ describe('Testa a model Sale', () => {
         const sut = await Sale.getSales()
 
         expect(sut[0]).to.have.all.keys('date', 'saleId', 'productId', 'quantity')
+      });
+    });
+
+    describe('e não existem cadastros no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([[]])
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é retornado um array vazio', async () => {
+        const sut = await Sale.getSales()
+
+        expect(sut).to.be.an('array')
+        expect(sut).to.be.empty
       });
     });
   });
