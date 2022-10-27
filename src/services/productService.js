@@ -19,9 +19,7 @@ const getProducts = async () => {
 const getProductById = async (id) => {
   const product = await Product.getProductById(id);
 
-  if (product.length === 0) {
-    throw ProductNotFound;
-  }
+  if (product.length === 0) throw ProductNotFound;
   
   return product[0];
 };
@@ -31,17 +29,17 @@ const editProduct = async (id, payload) => {
   
   const product = await Product.editProduct(id, payload);
   
-  if (product.affectedRows === 0) {
-    throw ProductNotFound;
-  } return { id, ...payload };
+  if (product.affectedRows === 0) throw ProductNotFound;
+  
+  return { id, ...payload };
 };
 
 const deleteProduct = async (id) => {
   const product = await Product.deleteProduct(id);
 
-  if (product.affectedRows === 0) {
-    throw ProductNotFound;
-  } return true;
+  if (product.affectedRows === 0) throw ProductNotFound;
+
+  return true;
 };
 
 const verifyProductQuantity = async (sale) => {
