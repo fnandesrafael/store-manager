@@ -4,33 +4,33 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-    - name: Verificando repositório do git
+      name: Verificando repositório do git
       uses: actions/checkout@v2
 
-    - name: Instalando node
+      name: Instalando node
       uses: actions/setup-node@v1
       with:
         node-version: 14
     
-    - name: Instalando dependências
+      name: Instalando dependências
       run: npm install
 
-    - name: Executando ESlint
+      name: Executando ESlint
       run: npx eslint .
   
   evaluator-unit:
     runs-on: ubuntu-latest
     steps:
-    - name: Verificando repositório do git
+      name: Verificando repositório do git
       uses: actions/checkout@v2
 
-    - name: Instalando node
+      name: Instalando node
       uses: actions/setup-node@v1
       with:
         node-version: 14
 
-    - name: Instalando dependências
+      name: Instalando dependências
       run: npm install
 
-    - name: Executando testes unitários
+      name: Executando testes unitários
       uses: npm run test:dev:unit
