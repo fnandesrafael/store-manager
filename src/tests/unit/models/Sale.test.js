@@ -3,9 +3,9 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const connection = require('../../../database/connection');
 const Sale = require('../../../database/models/Sale');
-const { newSalePayload, allSalesMock } = require('../../mocks/Sale');
+const { newSalePayload, allSalesMock, searchedSaleMock } = require('../../mocks/Sale');
 
-describe.only('Testa a model Sale', () => {
+describe('Testa a model Sale', () => {
   describe('quando é criada uma nova venda com sucesso', () => {
     before(() => {
       sinon.stub(connection, 'query').resolves([{ insertId: 1 }, undefined])
@@ -66,6 +66,30 @@ describe.only('Testa a model Sale', () => {
 
         expect(sut).to.be.an('array')
         expect(sut).to.be.empty
+      });
+    });
+  });
+
+  describe('quando é buscada uma venda em específico', () => {
+    describe('e a venda está cadastrada no banco de dados', async () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([searchedSaleMock])
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+
+      it('é retornado uma array da venda pesquisada, contendo os produtos vendidos', async () => {
+        const sut = await Sale.getSaleById(1);
+
+        expect(sut).to.be.deep.equal(searchedSaleMock);
+      });
+
+      it('os produtos vendidos possuem as chaves "date", "saleId", "productId" e "quantity"', async () => {
+        const sut = await Sale.getSaleById(1);
+
+        expect(sut[0]).to.have.all.keys('date', 'saleId', 'productId', 'quantity');
       });
     });
   });

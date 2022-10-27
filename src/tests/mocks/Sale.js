@@ -30,8 +30,18 @@ const allSalesMock = [
   }
 ]
 
+const searchedSaleMock = [
+  {
+    date: "2022-10-27T19:23:08.000Z",
+    saleId: 1,
+    productId: 1,
+    quantity: 5
+  }
+]
+
 module.exports = {
   newSalePayload,
   newSaleMock,
-  allSalesMock
+  allSalesMock,
+  searchedSaleMock
 };
