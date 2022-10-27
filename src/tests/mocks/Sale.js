@@ -39,9 +39,20 @@ const searchedSaleMock = [
   }
 ]
 
+const updatedSaleMock = {
+  saleId: 1,
+  itemUpdated: [
+    {
+      productId: 1,
+      quantity: 15
+    }
+  ]
+}
+
 module.exports = {
   newSalePayload,
   newSaleMock,
   allSalesMock,
-  searchedSaleMock
+  searchedSaleMock,
+  updatedSaleMock
 };

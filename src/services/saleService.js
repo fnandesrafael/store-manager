@@ -32,13 +32,13 @@ const getSaleById = async (id) => {
 const editSale = async (id, payload) => {
   await saleSchema.validateAsync(payload);
   
-  const sale = await Sale.getSaleById(id);
+  const [sale] = await Sale.editSale(id, payload);
 
-  if (sale.length === 0) throw ProductNotFound;
-
-  const editedSale = await Sale.editSale(id, payload);
+  console.log(sale);
   
-  return editedSale;
+  if (sale.affectedRows === 0) throw ProductNotFound;
+  
+  return { saleId: id, itemUpdated: payload };
 };
 
 const deleteSale = async (id) => {

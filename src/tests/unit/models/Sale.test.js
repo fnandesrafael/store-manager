@@ -110,4 +110,40 @@ describe('Testa a model Sale', () => {
       });
     });
   });
+
+  describe('quando é atualizada uma venda em específico', () => {
+    describe('e a venda está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([{affectedRows: 1}, undefined])
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado um objeto com uma linha atualizada', async () => {
+        const [sut] = await Sale.editSale(1, [{ productId: 1, quantity: 15 }])
+
+        expect(sut).to.be.an('object')
+        expect(sut.affectedRows).to.be.equal(1)
+      });
+    });
+
+    describe('e a venda não está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(connection, 'query').resolves([{affectedRows: 0}, undefined])
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado um objeto com uma linha atualizada', async () => {
+        const [sut] = await Sale.editSale(1, [{ productId: 1, quantity: 15 }])
+
+        expect(sut).to.be.an('object')
+        expect(sut.affectedRows).to.be.equal(0)
+      });
+    });
+  });
 });
