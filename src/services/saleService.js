@@ -6,8 +6,8 @@ const productService = require('./productService');
 const createSale = async (payload) => {
   await saleSchema.validateAsync(payload);
 
-  await Promise.all(payload.map(async (sale) => {
-    await productService.verifyProductQuantity(sale);
+  await Promise.all(payload.map(async (obj) => {
+    await productService.verifyProductQuantity(obj);
   }));
 
   const sale = await Sale.createSale(payload);
@@ -31,13 +31,18 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const editSale = async (id, sales) => {
-  try {
-    const editedSales = await Sale.editSale(id, sales);
-    return editedSales;
-  } catch (err) {
-    console.log('Erro no service editSale', err.message);
+const editSale = async (id, payload) => {
+  await saleSchema.validateAsync(payload);
+  
+  const sale = await Sale.getSaleById(id);
+
+  if (sale.length === 0) {
+    throw ProductNotFound;
   }
+
+  const editedSale = await Sale.editSale(id, payload);
+  
+  return editedSale;
 };
 
 const deleteSale = async (id) => {

@@ -9,29 +9,25 @@ const createSale = async (req, res) => {
 };
 
 const getSales = async (_req, res) => {
-  const sales = await saleService.getSales();
+  const response = await saleService.getSales();
 
-  return res.status(200).json(sales);
+  return res.status(200).json(response);
 };
 
 const getSaleById = async (req, res) => {
   const { id } = req.params;
 
-  const sale = await saleService.getSaleById(id);
-  
-  return res.status(200).json(sale);
+  const response = await saleService.getSaleById(id);
+
+  return res.status(200).json(response);
 };
 
 const editSale = async (req, res) => {
   const { id } = req.params;
-  const recoveredSales = req.body;
+  const sales = req.body;
 
-  try {
-    const editedSales = await saleService.editSale(id, recoveredSales);
-    return res.status(200).json(editedSales);
-  } catch (err) {
-    console.log('Erro no controller editSale', err.message);
-  }
+  const response = await saleService.editSale(id, sales);
+  return res.status(200).json(response);
 };
 
 const deleteSale = async (req, res) => {

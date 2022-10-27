@@ -17,46 +17,46 @@ const createSale = async (sales) => {
 };
 
 const getSales = async () => {
-  const [sales] = await connection.query(`
+  const [queryResult] = await connection.query(`
     SELECT DISTINCT date, sale_id AS saleId, product_id AS productId, quantity
     FROM StoreManager.sales_products
     INNER JOIN StoreManager.sales ON id=sale_id
     ORDER BY sale_id ASC
   `);
 
-  return sales;
+  return queryResult;
 };
 
 const getSaleById = async (id) => {
-  const [sale] = await connection.query(`
+  const [queryResult] = await connection.query(`
     SELECT DISTINCT date, sale_id AS saleId, product_id AS productId, quantity
     FROM StoreManager.sales_products
     INNER JOIN StoreManager.sales ON id=sale_id
     WHERE sale_id = ?`,
   [id]);
   
-  return sale;
+  return queryResult;
 };
 
 const editSale = async (id, sales) => {
-  try {
-    const [verifiedSale] = await connection.query(`
+    const [queryResult] = await connection.query(`
       SELECT * FROM StoreManager.sales_products
       WHERE sale_id = ?
     `, [id]);
-    if (verifiedSale === 0) {
+
+    if (queryResult.length === 0) {
       return [];
-    } await sales.forEach((sale) => (
+    }
+    
+    await sales.forEach((sale) => (
       connection.query(`
         UPDATE StoreManager.sales_products
         SET product_id = ?, quantity = ?
         WHERE sale_id = ?
       `, [sale.productId, sale.quantity, id])
     ));
+
     return { saleId: id, itemUpdated: sales };
-  } catch (err) {
-    console.log('Erro na model editSale', err.message);
-  }
 };
 
 const deleteSale = async (id) => {

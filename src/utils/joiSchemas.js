@@ -11,10 +11,8 @@ const productSchema = Joi.object({
     }),
   quantity: Joi.number()
     .required()
-    .min(1)
     .messages({
       'any.required': '"quantity" is required',
-      'number.min': '"quantity" must be greater than or equal to 1',
       'number.base': '"quantity" must be a number',
     }),
 });
@@ -27,11 +25,9 @@ const saleSchema = Joi.array().items(
         'any.required': '"productId" is required',
       }),
     quantity: Joi.number()
-      .min(1)
       .required()
       .messages({
         'any.required': '"quantity" is required',
-        'number.min': '"quantity" must be greater than or equal to 1',
       }),
   }),
 );
