@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const Sale = require('../../../database/models/Sale');
 const saleService = require('../../../services/saleService');
 const productService = require('../../../services/productService');
-const { newSaleMock, newSalePayload } = require('../../mocks/Sale');
+const { newSaleMock, newSalePayload, allSalesMock } = require('../../mocks/Sale');
 
 describe('Testa a service saleService', () => {
   describe('quando é criada uma nova venda', () => {
@@ -71,6 +71,48 @@ describe('Testa a service saleService', () => {
 
           expect(err.isCataloged).to.be.true;
         }
+      });
+    });
+  });
+
+  describe('quando são buscadas todas as vendas', () => {
+    describe('e existem cadastrados no banco de dados', () => { 
+      before(() => {
+        sinon.stub(Sale, 'getSales').resolves(allSalesMock)
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é retornado um array de objetos', async () => {
+        const sut = await saleService.getSales()
+
+        expect(sut).to.be.an('array')
+        expect(sut[0]).to.be.an('object')
+      });
+  
+      it('os objetos contém as chaves: "date", "saleId", "productId" e "quantity"', async () => {
+        const sut = await saleService.getSales()
+
+        expect(sut[0]).to.have.all.keys('date', 'saleId', 'productId', 'quantity')
+      });
+    });
+
+    describe('e não existem cadastros no banco de dados', () => {
+      before(() => {
+        sinon.stub(Sale, 'getSales').resolves([])
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é retornado um array vazio', async () => {
+        const sut = await saleService.getSales()
+
+        expect(sut).to.be.an('array')
+        expect(sut).to.be.empty
       });
     });
   });
