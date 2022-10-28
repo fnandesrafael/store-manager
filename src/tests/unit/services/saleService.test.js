@@ -217,4 +217,41 @@ describe('Testa a service saleService', () => {
       });
     });
   });
+
+  describe('quando uma venda em específico é deletada', () => {
+    describe('e a venda está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(Sale, 'deleteSale').resolves([{ affectedRows: 1 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado true', async () => {
+        const sut = await saleService.deleteSale(1)
+
+        expect(sut).to.be.true
+      });
+    });
+
+    describe('e a venda não está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(Sale, 'deleteSale').resolves([{ affectedRows: 0 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await saleService.deleteSale(1)
+        } catch(err) {
+
+          expect(err.isCataloged).to.be.true
+        }
+      });
+    });
+  });
 });
