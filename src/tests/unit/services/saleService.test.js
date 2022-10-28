@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const Sale = require('../../../database/models/Sale');
 const saleService = require('../../../services/saleService');
 const productService = require('../../../services/productService');
-const { newSaleMock, newSalePayload, allSalesMock, searchedSaleMock } = require('../../mocks/Sale');
+const { newSaleMock, newSalePayload, allSalesMock, searchedSaleMock, updatedSaleMock, updateSalePayload } = require('../../mocks/Sale');
 
 describe('Testa a service saleService', () => {
   describe('quando é criada uma nova venda', () => {
@@ -152,6 +152,64 @@ describe('Testa a service saleService', () => {
       it('é disparado um erro catalogado', async () => {
         try {
           await saleService.getSaleById(1)
+        } catch(err) {
+
+          expect(err.isCataloged).to.be.true;
+        }
+      });
+    });
+  });
+
+  describe('quando é atualizada uma venda específica', () => {
+    describe('e a venda está cadastrada no banco de dados', () => {
+      before(() => {
+        sinon.stub(Sale, 'editSale').resolves([{ affectedRows: 1 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é retornado o objeto atualizado', async () => {
+        const sut = await saleService.editSale(1, updateSalePayload)
+
+        expect(sut).to.be.an('object')
+        expect(sut).to.be.deep.equal(updatedSaleMock)
+      });
+    });
+
+    describe(`e a venda está cadastrada no banco de dados, mas o corpo
+    da requisição é invalido`, async () => {
+      before(() => {
+        sinon.stub(Sale, 'editSale').resolves([{ affectedRows: 0 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é disparado um erro de validação Joi', async () => {
+        try {
+          await productService.editProduct(1, {})
+        } catch (err) {
+          
+          expect(err.isJoi).to.be.true
+        }
+      });
+    })
+
+    describe('e o produto não está cadastrado no banco de dados', () => {
+      before(() => {
+        sinon.stub(Sale, 'editSale').resolves([{ affectedRows: 0 }, undefined]);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await saleService.editSale(1, updateSalePayload)
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;

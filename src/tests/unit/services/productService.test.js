@@ -145,7 +145,7 @@ describe('Testa a service productService', () => {
         sinon.restore();
       });
       
-      it('é retornado um objeto com uma linha atualizada', async () => {
+      it('é retornado o objeto atualizado', async () => {
         const sut = await productService.editProduct(1, {
           name: 'Machado de Thor',
           quantity: 15

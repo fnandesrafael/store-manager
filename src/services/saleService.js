@@ -33,8 +33,6 @@ const editSale = async (id, payload) => {
   await saleSchema.validateAsync(payload);
   
   const [sale] = await Sale.editSale(id, payload);
-
-  console.log(sale);
   
   if (sale.affectedRows === 0) throw ProductNotFound;
   

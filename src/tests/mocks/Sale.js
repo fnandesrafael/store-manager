@@ -5,6 +5,13 @@ const newSalePayload = [
   }
 ];
 
+const updateSalePayload = [
+  {
+    productId: 1,
+    quantity: 15
+  }
+]
+
 const newSaleMock = {
   id: 1,
   itemsSold: [
@@ -51,6 +58,7 @@ const updatedSaleMock = {
 
 module.exports = {
   newSalePayload,
+  updateSalePayload,
   newSaleMock,
   allSalesMock,
   searchedSaleMock,
