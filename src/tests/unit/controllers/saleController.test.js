@@ -54,7 +54,7 @@ describe('Testa o controller saleController', () => {
       expect((res.status).calledWith(200)).to.be.true;
     });
 
-    it('o método json é chamado com o objeto criado', async () => {
+    it('o método json é chamado todos os objetos pesquisados', async () => {
       await saleController.getSales(req, res);
 
       expect((res.json).calledWith(allSalesMock)).to.be.true;
@@ -80,7 +80,7 @@ describe('Testa o controller saleController', () => {
       expect((res.status).calledWith(200)).to.be.true;
     });
 
-    it('o método json é chamado com o objeto criado', async () => {
+    it('o método json é chamado com o objeto pesquisado', async () => {
       req.params = { id: 1 }
       await saleController.getSaleById(req, res);
 
@@ -107,11 +107,38 @@ describe('Testa o controller saleController', () => {
       expect((res.status).calledWith(200)).to.be.true;
     });
 
-    it('o método json é chamado com o objeto criado', async () => {
+    it('o método json é chamado com o objeto atualizado', async () => {
       req.params = { id: 1 }
       await saleController.editSale(req, res);
 
       expect((res.json).calledWith(updatedSaleMock)).to.be.true;
+    });
+  });
+
+  describe('quando uma venda específica é deletada', () => {
+    before(() => {
+      sinon.stub(saleService, 'deleteSale').resolves();
+
+      res.status = sinon.stub().returns(res);
+      res.send = sinon.stub().returns(res);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+    
+    it('o método status é chamado com o valor 200', async () => {
+      req.params = { id: 1 }
+      await saleController.deleteSale(req, res);
+
+      expect((res.status).calledWith(204)).to.be.true;
+    });
+
+    it('o método json é chamado vazio', async () => {
+      req.params = { id: 1 }
+      await saleController.deleteSale(req, res);
+
+      expect((res.send).calledWith()).to.be.true;
     });
   });
 });
