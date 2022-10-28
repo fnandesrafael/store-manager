@@ -3,7 +3,7 @@ const { describe } = require('mocha');
 const sinon = require('sinon');
 const saleController = require("../../../controllers/saleController");
 const saleService = require('../../../services/saleService');
-const { newSaleMock, newSalePayload, allSalesMock, searchedSaleMock } = require('../../mocks/Sale');
+const { newSaleMock, newSalePayload, allSalesMock, searchedSaleMock, updatedSaleMock } = require('../../mocks/Sale');
 
 const req = {}
 const res = {}
@@ -85,6 +85,33 @@ describe('Testa o controller saleController', () => {
       await saleController.getSaleById(req, res);
 
       expect((res.json).calledWith(searchedSaleMock)).to.be.true;
+    });
+  });
+
+  describe('quando uma venda específica é atualizada', () => {
+    before(() => {
+      sinon.stub(saleService, 'editSale').resolves(updatedSaleMock);
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns(res);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+    
+    it('o método status é chamado com o valor 200', async () => {
+      req.params = { id: 1 }
+      await saleController.editSale(req, res);
+
+      expect((res.status).calledWith(200)).to.be.true;
+    });
+
+    it('o método json é chamado com o objeto criado', async () => {
+      req.params = { id: 1 }
+      await saleController.editSale(req, res);
+
+      expect((res.json).calledWith(updatedSaleMock)).to.be.true;
     });
   });
 });
