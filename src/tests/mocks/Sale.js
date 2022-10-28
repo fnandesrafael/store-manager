@@ -6,7 +6,7 @@ const newSalePayload = [
 ];
 
 const newSaleMock = {
-  saleId: 1,
+  id: 1,
   itemsSold: [
     {
       productId: 1,

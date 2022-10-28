@@ -53,6 +53,8 @@ const verifyProductQuantity = async (sale) => {
   };
 
   await editProduct(sale.productId, payload);
+
+  return true;
 };
   
 module.exports = {
