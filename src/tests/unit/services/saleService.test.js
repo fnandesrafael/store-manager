@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const Sale = require('../../../database/models/Sale');
 const saleService = require('../../../services/saleService');
 const productService = require('../../../services/productService');
-const { newSaleMock, newSalePayload, allSalesMock } = require('../../mocks/Sale');
+const { newSaleMock, newSalePayload, allSalesMock, searchedSaleMock } = require('../../mocks/Sale');
 
 describe('Testa a service saleService', () => {
   describe('quando é criada uma nova venda', () => {
@@ -113,6 +113,49 @@ describe('Testa a service saleService', () => {
 
         expect(sut).to.be.an('array')
         expect(sut).to.be.empty
+      });
+    });
+  });
+
+  describe('quando é buscada uma venda em específico', () => {
+    describe('e a venda está cadastrada no banco de dados', async () => {
+      before(() => {
+        sinon.stub(Sale, 'getSaleById').resolves(searchedSaleMock);
+      });
+  
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é retornado um array da venda pesquisada', async () => {
+        const sut = await saleService.getSaleById(1);
+
+        expect(sut).to.be.deep.equal(searchedSaleMock);
+      });
+
+      it('os produtos vendidos possuem as chaves: "date", "saleId", "productId" e "quantity"', async () => {
+        const sut = await saleService.getSaleById(1)
+
+        expect(sut[0]).to.have.all.keys('date', 'saleId', 'productId', 'quantity')
+      });
+    });
+
+    describe('mas a venda não está cadastrada no banco de dados', async () => {
+      before(() => {
+        sinon.stub(Sale, 'getSaleById').resolves([])
+      })
+  
+      after(() => {
+        sinon.restore()
+      })
+      
+      it('é disparado um erro catalogado', async () => {
+        try {
+          await saleService.getSaleById(1)
+        } catch(err) {
+
+          expect(err.isCataloged).to.be.true;
+        }
       });
     });
   });
