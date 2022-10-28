@@ -17,11 +17,11 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const product = await Product.getProductById(id);
+  const [product] = await Product.getProductById(id);
 
-  if (product.length === 0) throw ProductNotFound;
+  if (Object.keys(product).length === 0) throw ProductNotFound;
   
-  return product[0];
+  return product;
 };
 
 const editProduct = async (id, payload) => {
@@ -44,7 +44,7 @@ const deleteProduct = async (id) => {
 
 const verifyProductQuantity = async (sale) => {
   const product = await getProductById(sale.productId);
-  
+
   if ((product.quantity - sale.quantity) < 0) throw InvalidQuantity;
 
   const payload = {

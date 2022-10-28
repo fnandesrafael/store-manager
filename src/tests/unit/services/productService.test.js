@@ -4,6 +4,7 @@ const sinon = require('sinon');
 const Product = require('../../../database/models/Product');
 const productService = require('../../../services/productService');
 const { newProductMock, newProductPayload, allProductsMock, searchedProductMock, updatedProductMock } = require('../../mocks/Product');
+const { updateSalePayload } = require('../../mocks/Sale');
 
 describe('Testa a service productService', () => {
   describe('quando é criado um novo produto', () => {
@@ -124,12 +125,13 @@ describe('Testa a service productService', () => {
         sinon.restore()
       })
       
-      it('é disparado um erro catalogado', async () => {
+      it('é disparado um erro catalogado ProductNotFound', async () => {
         try {
           await productService.getProductById(1)
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
+          expect(err.type).to.be.equal('ProductNotFound');
         }
       });
     });
@@ -185,7 +187,7 @@ describe('Testa a service productService', () => {
         sinon.restore();
       });
       
-      it('é disparado um erro catalogado', async () => {
+      it('é disparado um erro catalogado do tipo ProductNotFound', async () => {
         try {
           await productService.editProduct(1, {
             name: 'Machado de Thor',
@@ -194,6 +196,7 @@ describe('Testa a service productService', () => {
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
+          expect(err.type).to.be.equal('ProductNotFound');
         }
       });
     });
@@ -225,11 +228,52 @@ describe('Testa a service productService', () => {
         sinon.restore();
       });
       
-      it('é disparado um erro catalogado', async () => {
+      it('é disparado um erro catalogado do tipo ProductNotFound', async () => {
         try {
           await productService.deleteProduct(1)
         } catch(err) {
-          expect(err.isCataloged).to.be.true
+
+          expect(err.isCataloged).to.be.true;
+          expect(err.type).to.be.equal('ProductNotFound');
+        }
+      });
+    });
+  });
+
+  describe('quando é verificada a quantidade de um produto', () => {
+    describe('e o produto está cadastrado assim como a quantidade de vendas não excede o estoque', () => {
+      before(() => {
+        sinon.stub(Product, 'getProductById').resolves([{ ...searchedProductMock, quantity: 20 }])
+        sinon.stub(Product, 'editProduct').resolves([{ affectedRows: 1 }, undefined]);
+      });
+      
+      after(() => {
+        sinon.restore();
+      });
+
+      it('é retornado true', async () => {
+        const sut = await productService.verifyProductQuantity(updateSalePayload[0]);
+  
+        expect(sut).to.be.true;
+      });
+    });
+
+    describe('e a quantidade de produtos vendidos, excede o estoque', () => {
+      before(() => {
+        sinon.stub(Product, 'getProductById').resolves([{ ...searchedProductMock, quantity: 0 }])
+      });
+      
+      after(() => {
+        sinon.restore();
+      });
+      
+      it('é disparado um erro catalogado do tipo InvalidQuantity', async () => {        
+        try {
+          await productService.verifyProductQuantity(updateSalePayload[0]);
+        } catch (err) {
+
+          expect(err.isCataloged).to.be.true;
+          expect(err.type).to.be.equal('InvalidQuantity');
         }
       });
     });
