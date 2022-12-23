@@ -23,17 +23,17 @@ Para que o projeto possa ser executado localmente, é necessário que você poss
 - [Database Client](https://database-client.com/#/)
 > Aqui fica a recomendação de utilizar o Visual Studio como editor de código para a execução dessa aplicação, visto que tanto o Thunder Client como o Database são extensões do software.
 
-O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containers e imagens, quais serão utilizados nesse projeto para subir a aplicação em ambiente `Node` na versão `14-alpine` e o `MySQL` na versão `5.7`.
+O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containers e imagens, quais serão utilizados nesse projeto para subir a aplicação em ambiente `Node` na versão `16` e o `MySQL` na versão `5.7`.
 
 ### 📝 Etapas
 
 <details>
   <summary>
-    <b>📛 Configurando variáveis de ambiente</b>
+    <b>📛 Configurando as Variáveis de Ambiente</b>
   </summary>
 
   ####
-  Lorem Ipsum
+  Na raíz do projeto, há um arquivo `.env.example`, você deve renomeá-lo, deixando apenas `.env`. Esse arquivo deverá passar todas as variáveis de ambiente necessárias para a aplicação. Para motivos de teste, é recomendado que deixe as variáveis padrões, mas caso decida alterá-las, preste atenção para que não haja conflito com as variáveis do arquivo `docker-compose` nem com as portas.
 </details>
 
 <details>
@@ -41,6 +41,58 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
     <b>🐋 Subindo o Container da Aplicação</b>
   </summary>
 
+  ####
+  Após configurar as variáveis de ambiente, é hora de subir o container da aplicação, o que nos dará o `Node` para que possamos executar o servidor da Api, e o banco de dados `MySQL`.
+
+  Para isso, digite o comando abaixo no terminal, a partir da raíz do projeto:
+  ```cli
+  docker-compose up -d
+  ```
+  Com esse comando já deve ser possível visualizar os containers através do comando:
+  ```cli
+  docker container ps
+  ```
+</details>
+
+<details>
+  <summary>
+    <b>🎲 Estabelecendo Conexão com o Banco de Dados</b>
+  </summary>
+
+  ####
+  Agora com o container do `MySQL` é necessário estabelecer uma conexão com o banco de dados. Para isso será utilizada a extensão `Database Client` já citada nos requisitos mínimos da aplicação.
+
+  Acessando a extensão, basta clicar na opção *Create Connection* no menu superior. Isso abrirá uma nova aba, com alguns campos para serem preenchidos:
+  1. Selecione o *Server Type* `Mysql`;
+  2. Preencha o campo *Host* com o valor atribuido no arquivo `.env`. Se você não realizou nenhum alteração, deverá ser `localhost`;
+  3. O campo *Username* deve ser `root` e o campo *Password* deve ter o valor `secret` caso, novamente, nenhuma alteração tenha sido realizada no arquivo `.env`;
+  4. Por fim o campo *Port* deve ter o valor `3306`.
+
+  Se tudo ocorreu corretamente, agora você verá a conexão listada na aba da extensão, no entanto ainda é preciso subir o *Banco de Dados*. Para isso, conecte-se ao container `Node` para pode realizar os comandos necessários.
+  
+  Na raíz do projeto digite o comando abaixo para conectar-se ao container `Node`:
+  ```cli
+  docker exec -it store_manager_api bash
+  ```
+
+  Um novo terminal deverá ser aberto, primeiramente instale as dependências com o comando:
+  ```cli
+  npm install
+  ```
+
+  Em seguida digite o comando abaixo para subir o banco `StoreManager`:
+  ```cli
+  npm run db:reset
+  ```
+
+  Pronto, agora você já deve conseguir visualizar na aba da extensão *Database Client* o banco de dados *StoreManager* e suas respectivas tabelas com a população inicial.
+</details>
+
+<details>
+  <summary>
+    <b>🔎 Realizando as Requisições</b>
+  </summary>
+  
   ####
   Lorem Ipsum
 </details>
