@@ -64,9 +64,11 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 
   Acessando a extensão, basta clicar na opção *Create Connection* no menu superior. Isso abrirá uma nova aba, com alguns campos para serem preenchidos:
   1. Selecione o *Server Type* `Mysql`;
-  2. Preencha o campo *Host* com o valor atribuido no arquivo `.env`. Se você não realizou nenhum alteração, deverá ser `localhost`;
-  3. O campo *Username* deve ser `root` e o campo *Password* deve ter o valor `secret` caso, novamente, nenhuma alteração tenha sido realizada no arquivo `.env`;
-  4. Por fim o campo *Port* deve ter o valor `3306`.
+  2. Preencha o campo *Host* com o valor `localhost`;
+  3. O campo *Username* e *Password* devem ser respectivamente `root` e `secret`;
+  > Caso você tenha modificado o arquivo .env, devem ser os valores atribuídos nas variáveis MYSQL_USER e MYSQL_PASSWORD(Lembrando que esses valores devem ser iguais no arquivo docker-compose.yml).
+  4. Por fim o campo *Port* deve ter o valor `3306`
+  > Ou a porta que foi exposta no arquivo docker-compose.yml e o valor atribuído na variável PORT do arquivo .env.
 
   Se tudo ocorreu corretamente, agora você verá a conexão listada na aba da extensão, no entanto ainda é preciso subir o *Banco de Dados*. Para isso, conecte-se ao container `Node` para pode realizar os comandos necessários.
   
