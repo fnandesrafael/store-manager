@@ -25,7 +25,7 @@ Para que o projeto possa ser executado localmente, é necessário que você poss
 
 O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containers e imagens, quais serão utilizados nesse projeto para subir a aplicação em ambiente `Node` na versão `16` e o `MySQL` na versão `5.7`.
 
-### 📝 Etapas
+### 📝 Configurações
 
 <details>
   <summary>
@@ -42,7 +42,7 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
   </summary>
 
   ####
-  Após configurar as variáveis de ambiente, é hora de subir o container da aplicação, o que nos dará o `Node` para que possamos executar o servidor da Api, e o banco de dados `MySQL`.
+  Após configurar as variáveis de ambiente, é hora de subir o container da aplicação, o que nos dará o `Node` para que possamos executar o servidor da API, e o banco de dados `MySQL`.
 
   Para isso, digite o comando abaixo no terminal, a partir da raíz do projeto:
   ```cli
@@ -60,14 +60,14 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
   </summary>
 
   ####
-  Agora com o container do `MySQL` é necessário estabelecer uma conexão com o banco de dados. Para isso será utilizada a extensão `Database Client` já citada nos requisitos mínimos da aplicação.
+  Agora com o container do `MySQL` *up*, é necessário estabelecer uma conexão com o banco de dados. Para isso será utilizada a extensão `Database Client` já citada nos requisitos mínimos da aplicação.
 
   Acessando a extensão, basta clicar na opção *Create Connection* no menu superior. Isso abrirá uma nova aba, com alguns campos para serem preenchidos:
-  1. Selecione o *Server Type* `Mysql`;
-  2. Preencha o campo *Host* com o valor `localhost`;
-  3. O campo *Username* e *Password* devem ser respectivamente `root` e `secret`;
+  1. Selecione o **Server Type** `Mysql`;
+  2. Preencha o campo **Host** com o valor `localhost`;
+  3. O campo **Username** e **Password** devem ter respectivamente os valores `root` e `secret`;
   > Caso você tenha modificado o arquivo .env, devem ser os valores atribuídos nas variáveis MYSQL_USER e MYSQL_PASSWORD(Lembrando que esses valores devem ser iguais no arquivo docker-compose.yml).
-  4. Por fim o campo *Port* deve ter o valor `3306`
+  4. Por fim o campo **Port** deve ter o valor `3306`.
   > Ou a porta que foi exposta no arquivo docker-compose.yml e o valor atribuído na variável PORT do arquivo .env.
 
   Se tudo ocorreu corretamente, agora você verá a conexão listada na aba da extensão, no entanto ainda é preciso subir o *Banco de Dados*. Para isso, conecte-se ao container `Node` para pode realizar os comandos necessários.
@@ -92,11 +92,24 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 
 <details>
   <summary>
-    <b>🔎 Realizando as Requisições</b>
+    <b>⚙️ Subindo a API</b>
   </summary>
   
   ####
-  Lorem Ipsum
+  Agora já é possível realizar as requisições no *Banco de Dados* a partir de um *API Client*, novamente é recomendado utilizar o *Thunder Client*.
+
+  Conectado ao *Banco de Dados* com sucesso, e ainda com o container `store_manager_api` *up*, caso tenha fechado o terminal, novamente rode o comando:
+  ```cli
+  docker exec -it store_manager_api bash
+  ```
+
+  Dentro do container, se já tiver instalado as dependências e resetado os bancos como explicado nos passos anteriores, inicie o servidor com o comando abaixo:
+  ```cli
+  npm run dev
+  ```
+  > Se tudo ocorrer bem, você deverá receber no console, a mensagem: `Escutando na porta 3001`.
+
+  Pronto, a *API* já está rodando e você já possui conexão com o banco. Agora basta realizar suas requisições. Na aba abaixo, segue a documentação das requisições.
 </details>
 
 <details>
@@ -105,8 +118,30 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
   </summary>
 
   ####
-  Lorem Ipsum
+  Para realizar os testes da aplicação, ou executar alguns comandos de CI é necessário primeiro estar conectado ao container `store_manager_api` como exemplificado em passos anteriores.
+  
+  ##### Testes Unitários
+  Após a conexão com o container, se os pacotes do node houverem sido instalados, para executar os **Testes Unitários** basta rodar o comando abaixo no terminal do container:
+  ```cli
+  npm run test:dev:unit
+  ```
+
+  ##### Cobertura de Testes
+  Se quiser conferir a cobertura dos testes unitários, basta rodar o comando:
+  ```cli
+  npm run test:dev:unit:coverage
+  ```
+
+  ##### Linter
+  O Linter utilizado no código do programa foi o `Eslint`. Caso queira rodá-lo, basta que, seguindo os passos iniciais dos comandos anteriores, você digite o comando abaixo no terminal do container:
+  ```cli
+  npm run lint
+  ```
 </details>
+
+## Documentação da API
+
+Lorem Ipsum
 
 ## Propriedade intelectual e referências:
 Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI/CD*.
