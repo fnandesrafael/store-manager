@@ -147,14 +147,19 @@ Na extensão *Thunder Client* ou no *API Client* da sua escolha, você deverá e
 
 Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas instruções mais detalhadas.
 
-#### Inserir Novo Produto
-- Método: **POST**
+<details>
+  <summary>
+    <b>Inserir Novo Produto</b>
+  </summary>
+
+  ####
+  - Método: **POST**
 - Endpoint: `localhost:3001/products`
 
 Com esse método, você conseguirá inserir um novo produto no banco de dados, para isso basta enviar no *Body* da requisição um objeto com a seguinte estrutura:
 ```js
 {
-  "name": "Nome do Produto", // Deve ser uma string com o nome seu produto
+  "name": "Martelo de Thor", // Deve ser uma string com o nome seu produto
   "quantity": 10 // Deve ser um inteiro com a quantidade do seu produto
 }
 ```
@@ -163,10 +168,37 @@ Se criado com sucesso, a *API* retornará um *Status Code* **201** e um objeto c
 ```js
 {
   "id": 1,
-  "name": "Nome do Produto",
+  "name": "Martelo de Thor",
   "quantity": 10
 }
 ```
+</details>
+
+<details>
+  <summary>
+    <b>Listar Todos Produto</b>
+  </summary>
+
+  ####
+  - Método: **GET**
+- Endpoint: `localhost:3001/products`
+
+Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* **200** e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
+```js
+[
+  {
+    "id": 1,
+    "name": "Martelo de Thor",
+    "quantity": 10
+  },
+  {
+    "id": 2,
+    "name": "Traje de encolhimento",
+    "quantity": 20
+  }
+]
+```
+</details>
 
 ## Propriedade intelectual e referências:
 Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI/CD*.
