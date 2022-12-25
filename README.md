@@ -149,11 +149,11 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>Inserir Novo Produto</b>
+    <b>✍️ Inserir Novo Produto</b>
   </summary>
 
   ####
-  - Método: **POST**
+- Método: **POST**
 - Endpoint: `localhost:3001/products`
 
 Com esse método, você conseguirá inserir um novo produto no banco de dados, para isso basta enviar no *Body* da requisição um objeto com a seguinte estrutura:
@@ -164,7 +164,7 @@ Com esse método, você conseguirá inserir um novo produto no banco de dados, p
 }
 ```
 
-Se criado com sucesso, a *API* retornará um *Status Code* **201** e um objeto com os seguintes dados:
+Se criado com sucesso, a *API* retornará um *Status Code* `201` e um objeto com os seguintes dados:
 ```js
 {
   "id": 1,
@@ -176,14 +176,14 @@ Se criado com sucesso, a *API* retornará um *Status Code* **201** e um objeto c
 
 <details>
   <summary>
-    <b>Listar Todos Produto</b>
+    <b>📋 Listar Todos Produtos</b>
   </summary>
 
   ####
-  - Método: **GET**
+- Método: **GET**
 - Endpoint: `localhost:3001/products`
 
-Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* **200** e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
+Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
 ```js
 [
   {
@@ -198,6 +198,30 @@ Com esse método, você conseguirá listar todos os produtos cadastrados no banc
   }
 ]
 ```
+</details>
+
+<details>
+  <summary>
+    <b>🔍 Listar Um Produto</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>✏️ Editar Um Produto</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>🗑 Apagar Um Produto</b>
+  </summary>
+
+  ####
 </details>
 
 ## Propriedade intelectual e referências:
