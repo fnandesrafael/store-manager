@@ -11,7 +11,7 @@ Essa é uma aplicação simples de um *Banco de Dados Relacional*. Esse banco si
 - [Express](https://expressjs.com/pt-br/)
 - [Docker](https://www.docker.com/)
 
-> Outras bibliotecas, ferramentas e dependências: [Nodemon](https://nodemon.io/), [Joi](https://joi.dev/), [Mocha](https://mochajs.org/), [Chai](https://www.chaijs.com/), [Sinon](https://sinonjs.org/), [Istanbul](https://istanbul.js.org/), [ESlint](https://eslint.org/), [Stylelint](https://stylelint.io/)
+> Outras bibliotecas, ferramentas e dependências: [Nodemon](https://nodemon.io/), [Joi](https://joi.dev/), [Mocha](https://mochajs.org/), [Chai](https://www.chaijs.com/), [Sinon](https://sinonjs.org/), [Istanbul](https://istanbul.js.org/) e [ESlint](https://eslint.org/)
 
 ## Instruções para Execução:
 
@@ -70,7 +70,7 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
   4. Por fim o campo **Port** deve ter o valor `3306`.
   > Ou a porta que foi exposta no arquivo docker-compose.yml e o valor atribuído na variável PORT do arquivo .env.
 
-  Se tudo ocorreu corretamente, agora você verá a conexão listada na aba da extensão, no entanto ainda é preciso subir o *Banco de Dados*. Para isso, conecte-se ao container `Node` para pode realizar os comandos necessários.
+  Se tudo ocorreu corretamente, agora você verá a conexão listada na aba da extensão, no entanto ainda é preciso subir o *Banco de Dados*. Para isso, conecte-se ao container `store_manager_api` para poder realizar os comandos necessários.
   
   Na raíz do projeto digite o comando abaixo para conectar-se ao container `Node`:
   ```cli
@@ -140,8 +140,33 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 </details>
 
 ## Documentação da API
+Aqui você encontrará a lista dos *endpoints* da *API*. Alguns endpoints possuem requisições e métodos específicos para cada tipo de operação.
+Para poder realizar as requisições, primeiro certifique-se de que o *Banco de Dados* continua rodando normalmente. Se a *API* também estiver *up*, seguindos os passos da seção **Subindo a API**, então é possível prosseguir.
 
-Lorem Ipsum
+Na extensão *Thunder Client* ou no *API Client* da sua escolha, você deverá encontrar algum botão com a opção **New Request** ou algo parecido. Ao clicar no botão, você poderá preencher algumas informações, as principais são o **Método**, **Endereço** e **Body**. O *Método* equivale ao tipo de requisição que será feita(POST, GET, PUT ou DEL), o *Endereço*, no entanto, será o endpoint; que nesse caso será sempre `localhost:3001/` onde 3001 é a porta designada para a *API* no arquivo `docker-compose.yml` e nas variáveis de ambiente do arquivo `.env`; seguido de mais algum parâmetro, que estará listado nas intruções de cada requisição. Por fim o *Body*, é a parte da requisição onde alguns dados devem ser fornecidos se aquele endpoint precisar.
+
+Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas instruções mais detalhadas.
+
+#### Inserir Novo Produto
+- Método: **POST**
+- Endpoint: `localhost:3001/products`
+
+Com esse método, você conseguirá inserir um novo produto no banco de dados, para isso basta enviar no *Body* da requisição um objeto com a seguinte estrutura:
+```js
+{
+  "name": "Nome do Produto", // Deve ser uma string com o nome seu produto
+  "quantity": 10 // Deve ser um inteiro com a quantidade do seu produto
+}
+```
+
+Se criado com sucesso, a *API* retornará um *Status Code* **201** e um objeto com os seguintes dados:
+```js
+{
+  "id": 1,
+  "name": "Nome do Produto",
+  "quantity": 10
+}
+```
 
 ## Propriedade intelectual e referências:
 Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI/CD*.
