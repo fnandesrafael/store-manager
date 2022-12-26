@@ -5,6 +5,13 @@ const ProductNotFound = {
   isCataloged: true,
 };
 
+const SaleNotFound = {
+  type: 'SaleNotFound',
+  statusCode: 404,
+  message: 'Sale Not Found',
+  isCataloged: true,
+};
+
 const InvalidQuantity = {
   type: 'InvalidQuantity',
   statusCode: 400,
@@ -14,5 +21,6 @@ const InvalidQuantity = {
 
 module.exports = {
   ProductNotFound,
+  SaleNotFound,
   InvalidQuantity,
 };

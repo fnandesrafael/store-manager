@@ -17,11 +17,12 @@ const getProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const [product] = await Product.getProductById(id);
+  const product = await Product.getProductById(id);
 
+  console.log(product);
   if (Object.keys(product).length === 0) throw ProductNotFound;
   
-  return product;
+  return product[0];
 };
 
 const editProduct = async (id, payload) => {
