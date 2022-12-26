@@ -147,31 +147,46 @@ Na extensão *Thunder Client* ou no *API Client* da sua escolha, você deverá e
 
 Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas instruções mais detalhadas.
 
+### 🛍 Produtos
 <details>
   <summary>
     <b>✍️ Inserir Novo Produto</b>
   </summary>
 
   ####
-- Método: **POST**
-- Endpoint: `localhost:3001/products`
+  - Método: **POST**
+  - Endpoint: `localhost:3001/products`
 
-Com esse método, você conseguirá inserir um novo produto no banco de dados, para isso basta enviar no *Body* da requisição um objeto com a seguinte estrutura:
-```js
-{
-  "name": "Martelo de Thor", // Deve ser uma string com o nome seu produto
-  "quantity": 10 // Deve ser um inteiro com a quantidade do seu produto
-}
-```
+  Com esse método, você conseguirá inserir um novo produto no banco de dados, para isso basta enviar no *Body* da requisição um objeto com a seguinte estrutura:
+  ```js
+  {
+    "name": "Martelo de Thor", // Deve ser uma string com o nome seu produto
+    "quantity": 10 // Deve ser um inteiro com a quantidade do seu produto
+  }
+  ```
 
-Se criado com sucesso, a *API* retornará um *Status Code* `201` e um objeto com os seguintes dados:
-```js
-{
-  "id": 1,
-  "name": "Martelo de Thor",
-  "quantity": 10
-}
-```
+  Se criado com sucesso, a *API* retornará um *Status Code* `201` e um objeto com os seguintes dados:
+  ```js
+  {
+    "id": 1,
+    "name": "Martelo de Thor",
+    "quantity": 10
+  }
+  ```
+
+  Se alguma das chaves do *Body* da requisição for passada incorretamente, será retonado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"chave\" is required"
+  }
+  ```
+
+  Se algum dos valores no *Body* da requisição não for passado com o tipo correto, será retornado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"valor\" must be a string"
+  }
+  ```
 </details>
 
 <details>
@@ -180,24 +195,29 @@ Se criado com sucesso, a *API* retornará um *Status Code* `201` e um objeto com
   </summary>
 
   ####
-- Método: **GET**
-- Endpoint: `localhost:3001/products`
+  - Método: **GET**
+  - Endpoint: `localhost:3001/products`
 
-Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
-```js
-[
-  {
-    "id": 1,
-    "name": "Martelo de Thor",
-    "quantity": 10
-  },
-  {
-    "id": 2,
-    "name": "Traje de encolhimento",
-    "quantity": 20
-  }
-]
-```
+  Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
+  ```js
+  [
+    {
+      "id": 1,
+      "name": "Martelo de Thor",
+      "quantity": 10
+    },
+    {
+      "id": 2,
+      "name": "Traje de encolhimento",
+      "quantity": 20
+    }
+  ]
+  ```
+
+  Se não houver nenhum produto cadastrano no *Banco de Dados*, ainda será retornado um *Status Code* `200` porém com um array vazio:
+  ```js
+  []
+  ```
 </details>
 
 <details>
@@ -206,6 +226,27 @@ Com esse método, você conseguirá listar todos os produtos cadastrados no banc
   </summary>
 
   ####
+  - Método: **GET**
+  - Endpoint: `localhost:3001/products/{id}`
+  
+  Com esse método você conseguirá pesquisar por um produto específico baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*.
+  > Se estiver procurando pelo produto de id 1, por exemplo, o endpoint será: `localhost:3001/products/1`
+
+  Se listado com sucesso, será retornado um *Status Code* `200` e um objeto com o produto pesquisado:
+  ```js
+  {
+    "id": 1,
+    "name": "Martelo do Thor",
+    "quantity": 10
+  }
+  ```
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Procut not found"
+  }
+  ```
 </details>
 
 <details>
@@ -223,6 +264,48 @@ Com esse método, você conseguirá listar todos os produtos cadastrados no banc
 
   ####
 </details>
+
+### 🛒 Vendas
+<details>
+  <summary>
+    <b>✍️ Inserir Uma Venda</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>🗑 Listar Todas Vendas</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>🔍 Listar Uma Venda</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>✏️ Editar Uma Venda</b>
+  </summary>
+
+  ####
+</details>
+
+<details>
+  <summary>
+    <b>🗑 Apagar Uma Venda</b>
+  </summary>
+
+  ####
+</details>
+
 
 ## Propriedade intelectual e referências:
 Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI/CD*.
