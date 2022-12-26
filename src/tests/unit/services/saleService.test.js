@@ -149,13 +149,13 @@ describe('Testa a service saleService', () => {
         sinon.restore()
       })
       
-      it('é disparado um erro catalogado do tipo ProductNotFound', async () => {
+      it('é disparado um erro catalogado do tipo SaleNotFound', async () => {
         try {
           await saleService.getSaleById(1)
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
-          expect(err.type).to.be.equal('ProductNotFound');
+          expect(err.type).to.be.equal('SaleNotFound');
         }
       });
     });
@@ -208,13 +208,13 @@ describe('Testa a service saleService', () => {
         sinon.restore();
       });
       
-      it('é disparado um erro catalogado do tipo ProductNotFound', async () => {
+      it('é disparado um erro catalogado do tipo SaleNotFound', async () => {
         try {
           await saleService.editSale(1, updateSalePayload)
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
-          expect(err.type).to.be.equal('ProductNotFound');
+          expect(err.type).to.be.equal('SaleNotFound');
         }
       });
     });
@@ -246,13 +246,13 @@ describe('Testa a service saleService', () => {
         sinon.restore();
       });
       
-      it('é disparado um erro catalogado do tipo ProductNotFound', async () => {
+      it('é disparado um erro catalogado do tipo SaleNotFound', async () => {
         try {
           await saleService.deleteSale(1)
         } catch(err) {
 
           expect(err.isCataloged).to.be.true;
-          expect(err.type).to.be.equal('ProductNotFound');
+          expect(err.type).to.be.equal('SaleNotFound');
         }
       });
     });

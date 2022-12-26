@@ -198,7 +198,7 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   - Método: **GET**
   - Endpoint: `localhost:3001/products`
 
-  Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todos os produtos cadastrados, similar ao código abaixo:
+  Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todos os produtos, similar ao código abaixo:
   ```js
   [
     {
@@ -326,6 +326,59 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **POST**
+  - Endpoint: `localhost:3001/sales`
+
+  Com esse método, você conseguirá inserir uma nova venda no banco de dados, para isso basta enviar no *Body* da requisição um array de objetos, onda cada objeto equivale à um produto e a quantidade à ser comprada. Utilize a seguinte estrutura:
+  ```js
+  [
+    {
+      "productId": 1, // Deve ser um inteiro com equivalente ao id do produto à ser comprado
+      "quantity": 5 // Inteiro equivalente à quantidade que será comprada
+    },
+    {
+      "productId": 2
+      "quantity": 10
+    }
+  ]
+  ```
+
+  Se a venda for realizada com sucesso, a *API* retornará um *Status Code* `201` e um objeto com os seguintes dados:
+  ```js
+  {
+    "id": 1
+    "itemsSold": [
+      {
+        "productId": 1,
+        "quantity": 5
+      },
+      {
+        "productId": 2,
+        "quantity": 10
+      }
+    ]
+  }
+  ```
+
+  Se alguma das chaves do *Body* da requisição for passada incorretamente, será retonado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"productId\" is required"
+  }
+  ```
+
+  Se algum dos valores no *Body* da requisição não for passado com o tipo correto, será retornado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"productId\" must be a string"
+  }
+  ```
+  Se uma venda realizada, consumir uma quantidade de produtos, maior do que a disponível em estoque, será retornado um *Status Code* `400` e o seguinte objeto:
+  ```js
+  {
+    "message": "Order quantity for some products exceeds stock"
+  }
+  ```
 </details>
 
 <details>
@@ -334,6 +387,37 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **GET**
+  - Endpoint: `localhost:3001/sales`
+
+  Com esse método, você conseguirá listar todas as vendas cadastradas no banco de dados, para isso não é necessário enviar nada no *Body* da requisição, mas se tudo ocorrer com sucesso, a *API* retornará um *Status Code* `200` e um array de objetos com os dados de todas as vendas, similar ao código abaixo:
+  ```js
+  [
+    {
+      "date": "2022-12-26T15:26:04.000Z",
+      "saleId": 1,
+      "productId": 1,
+      "quantity": 5
+    },
+    {
+      "date": "2022-12-26T15:26:04.000Z",
+      "saleId": 1,
+      "productId": 2,
+      "quantity": 10
+    },
+    {
+      "date": "2022-12-26T15:26:04.000Z",
+      "saleId": 2,
+      "productId": 3,
+      "quantity": 15
+    },
+  ]
+  ```
+
+  Se não houver nenhum produto cadastrano no *Banco de Dados*, ainda será retornado um *Status Code* `200` porém com um array vazio:
+  ```js
+  []
+  ```
 </details>
 
 <details>
@@ -342,6 +426,36 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **GET**
+  - Endpoint: `localhost:3001/sales/{id}`
+  
+  Com esse método você conseguirá pesquisar por uma venda específica baseada em seu `id`, que deve ser fornecido ao final do *Endpoint*.
+  > Se estiver procurando pela venda de id 1, por exemplo, o endpoint será: `localhost:3001/sales/1`
+
+  Se listada com sucesso, será retornado um *Status Code* `200` e um array de objetos com a venda pesquisada:
+  ```js
+  [
+    {
+      "date": "2022-12-26T15:26:04.000Z",
+      "saleId": 1,
+      "productId": 1,
+      "quantity": 5
+    },
+    {
+      "date": "2022-12-26T15:26:04.000Z",
+      "saleId": 1,
+      "productId": 2,
+      "quantity": 10
+    }
+  ]
+  ```
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Product not found"
+  }
+  ```
 </details>
 
 <details>

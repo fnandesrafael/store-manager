@@ -1,5 +1,5 @@
 const Sale = require('../database/models/Sale');
-const { ProductNotFound } = require('../error/errorCatalog');
+const { SaleNotFound } = require('../error/errorCatalog');
 const saleSchema = require('../database/schemas/saleSchema');
 const productService = require('./productService');
 
@@ -24,7 +24,7 @@ const getSales = async () => {
 const getSaleById = async (id) => {
   const sale = await Sale.getSaleById(id);
 
-  if (sale.length === 0) throw ProductNotFound;
+  if (sale.length === 0) throw SaleNotFound;
 
   return sale;
 };
@@ -34,7 +34,7 @@ const editSale = async (id, payload) => {
   
   const [sale] = await Sale.editSale(id, payload);
   
-  if (sale.affectedRows === 0) throw ProductNotFound;
+  if (sale.affectedRows === 0) throw SaleNotFound;
   
   return { saleId: id, itemUpdated: payload };
 };
@@ -42,7 +42,7 @@ const editSale = async (id, payload) => {
 const deleteSale = async (id) => {
   const [sale] = await Sale.deleteSale(id);
   
-  if (sale.affectedRows === 0) throw ProductNotFound;
+  if (sale.affectedRows === 0) throw SaleNotFound;
 
   return true;
 };
