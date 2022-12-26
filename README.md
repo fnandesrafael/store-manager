@@ -150,7 +150,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 ### 🛍 Produtos
 <details>
   <summary>
-    <b>✍️ Inserir Novo Produto</b>
+    <b>POST /products</b>
+    Cria um novo produto
   </summary>
 
   ####
@@ -191,7 +192,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>📋 Listar Todos Produtos</b>
+    <b>GET /products</b>
+    Lista todos produtos
   </summary>
 
   ####
@@ -222,7 +224,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>🔍 Listar Um Produto</b>
+    <b>GET /products/{id}</b>
+    Lista um produto
   </summary>
 
   ####
@@ -251,7 +254,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>✏️ Editar Um Produto</b>
+    <b>PUT /products/{id}</b>
+    Edita um produto
   </summary>
 
   ####
@@ -302,7 +306,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>🗑 Apagar Um Produto</b>
+    <b>DELETE /products/{id}</b>
+    Apaga um produto
   </summary>
 
   ####
@@ -324,7 +329,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 ### 🛒 Vendas
 <details>
   <summary>
-    <b>✍️ Inserir Uma Venda</b>
+    <b>POST /sales</b>
+    Cria uma nova venda
   </summary>
 
   ####
@@ -385,7 +391,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>📋 Listar Todas Vendas</b>
+    <b>GET /sales</b>
+    Lista todas vendas
   </summary>
 
   ####
@@ -424,7 +431,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>🔍 Listar Uma Venda</b>
+    <b>GET /sales/{id}</b>
+    Lista uma venda
   </summary>
 
   ####
@@ -462,7 +470,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>✏️ Editar Uma Venda</b>
+    <b>PUT /sales/{id}</b>
+    Edita uma venda
   </summary>
 
   ####
@@ -519,7 +528,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>🗑 Apagar Uma Venda</b>
+    <b>DELETE /sales/{id}</b>
+    Apaga uma venda
   </summary>
 
   ####
