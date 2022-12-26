@@ -143,7 +143,7 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 Aqui você encontrará a lista dos *endpoints* da *API*. Alguns endpoints possuem requisições e métodos específicos para cada tipo de operação.
 Para poder realizar as requisições, primeiro certifique-se de que o *Banco de Dados* continua rodando normalmente. Se a *API* também estiver *up*, seguindos os passos da seção **Subindo a API**, então é possível prosseguir.
 
-Na extensão *Thunder Client* ou no *API Client* da sua escolha, você deverá encontrar algum botão com a opção **New Request** ou algo parecido. Ao clicar no botão, você poderá preencher algumas informações, as principais são o **Método**, **Endereço** e **Body**. O *Método* equivale ao tipo de requisição que será feita(POST, GET, PUT ou DEL), o *Endereço*, no entanto, será o endpoint; que nesse caso será sempre `localhost:3001/` onde 3001 é a porta designada para a *API* no arquivo `docker-compose.yml` e nas variáveis de ambiente do arquivo `.env`; seguido de mais algum parâmetro, que estará listado nas intruções de cada requisição. Por fim o *Body*, é a parte da requisição onde alguns dados devem ser fornecidos se aquele endpoint precisar.
+Na extensão *Thunder Client* ou no *API Client* da sua escolha, você deverá encontrar algum botão com a opção **New Request** ou algo parecido. Ao clicar no botão, você poderá preencher algumas informações, as principais são o **Método**, **Endpoint** e **Body**. O *Método* equivale ao tipo de requisição que será feita(POST, GET, PUT ou DELETE), o *Endpoint*, no entanto, será o endpoint; que nesse caso será sempre `localhost:3001/` onde 3001 é a porta designada para a *API* no arquivo `docker-compose.yml` e nas variáveis de ambiente do arquivo `.env`; seguido de mais algum parâmetro, que estará listado nas intruções de cada requisição. Por fim o *Body*, é a parte da requisição onde alguns dados devem ser fornecidos se aquele endpoint precisar.
 
 Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas instruções mais detalhadas.
 
@@ -306,6 +306,17 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  Com esse método você conseguirá apagar um produto específico baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*.
+  > Se quiser apagar o produto de id 1, por exemplo, o endpoint será: `localhost:3001/products/1`
+
+  Se apagado com sucesso, será retornado um *Status Code* `204` e nenhum objeto.
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Product not found"
+  }
+  ```
 </details>
 
 ### 🛒 Vendas
