@@ -306,6 +306,8 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **DELETE**
+  - Endpoint: `localhost:3001/products/{id}`
   Com esse método você conseguirá apagar um produto específico baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*.
   > Se quiser apagar o produto de id 1, por exemplo, o endpoint será: `localhost:3001/products/1`
 
@@ -453,7 +455,7 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
   ```js
   {
-    "message": "Product not found"
+    "message": "Sale not found"
   }
   ```
 </details>
@@ -464,6 +466,55 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **PUT**
+  - Endpoint: `localhost:3001/sales/{id}`
+  
+  Com esse método você conseguirá editar uma venda específica baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*. Também é necessário enviar os novos dados que essa venda deve ter.
+  > Se estiver procurando pela venda de id 1, por exemplo, o endpoint será: `localhost:3001/sales/1`
+
+  No *Body* da requisição, os dados devem ser enviados com um formato similar à esse:
+  ```js
+  [
+    {
+      "productId": 1,
+      "quantity": 15
+    }
+  ]
+  ```
+
+  Se editado com sucesso, será retornado um *Status Code* `200` e um objeto com a venda editada:
+  ```js
+  {
+    "saleId": 1,
+    "itemUpdated": [
+      {
+        "productId": 1,
+        "quantity": 15
+      }
+    ]
+  }
+  ```
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Sale not found"
+  }
+  ```
+
+  Se alguma das chaves do *Body* da requisição for passada incorretamente, será retonado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"productId\" is required"
+  }
+  ```
+
+  Se algum dos valores no *Body* da requisição não for passado com o tipo correto, será retornado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"productId\" must be an integer"
+  }
+  ```
 </details>
 
 <details>
@@ -472,6 +523,19 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **DELETE**
+  - Endpoint: `localhost:3001/sales/{id}`
+  Com esse método você conseguirá apagar uma venda específica baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*.
+  > Se quiser apagar a venda de id 1, por exemplo, o endpoint será: `localhost:3001/sales/1`
+
+  Se apagada com sucesso, será retornado um *Status Code* `204` e nenhum objeto.
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Sale not found"
+  }
+  ```
 </details>
 
 
