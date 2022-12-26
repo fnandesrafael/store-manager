@@ -177,14 +177,14 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   Se alguma das chaves do *Body* da requisição for passada incorretamente, será retonado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
   ```js
   {
-    "message": "\"chave\" is required"
+    "message": "\"name\" is required"
   }
   ```
 
   Se algum dos valores no *Body* da requisição não for passado com o tipo correto, será retornado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
   ```js
   {
-    "message": "\"valor\" must be a string"
+    "message": "\"name\" must be a string"
   }
   ```
 </details>
@@ -244,7 +244,7 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
   ```js
   {
-    "message": "Procut not found"
+    "message": "Product not found"
   }
   ```
 </details>
@@ -255,6 +255,49 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
   </summary>
 
   ####
+  - Método: **PUT**
+  - Endpoint: `localhost:3001/products/{id}`
+  
+  Com esse método você conseguirá editar um produto específico baseado em seu `id`, que deve ser fornecido ao final do *Endpoint*. Também é necessário enviar os novos dados que esse produto deve ter.
+  > Se estiver procurando pelo produto de id 1, por exemplo, o endpoint será: `localhost:3001/products/1`
+
+  No *Body* da requisição, os dados devem ser enviados com o seguinte formado:
+  ```js
+  {
+    "name": "Martelo de Thor", // Deve ser uma string com o novo nome seu produto
+    "quantity": 5 // Deve ser um inteiro com a nova quantidade do seu produto
+  }
+  ```
+
+  Se editado com sucesso, será retornado um *Status Code* `200` e um objeto com o produto editado:
+  ```js
+  {
+    "id": 1,
+    "name": "Martelo do Thor",
+    "quantity": 5
+  }
+  ```
+
+  Se o `id` fornecido for inválido, será retornado um *Status Code* `404` e o seguinte objeto:
+  ```js
+  {
+    "message": "Product not found"
+  }
+  ```
+
+  Se alguma das chaves do *Body* da requisição for passada incorretamente, será retonado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"name\" is required"
+  }
+  ```
+
+  Se algum dos valores no *Body* da requisição não for passado com o tipo correto, será retornado um *Status Code* `400` e um objeto similar ao demonstrado abaixo:
+  ```js
+  {
+    "message": "\"name\" must be a string"
+  }
+  ```
 </details>
 
 <details>
@@ -276,7 +319,7 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 <details>
   <summary>
-    <b>🗑 Listar Todas Vendas</b>
+    <b>📋 Listar Todas Vendas</b>
   </summary>
 
   ####
