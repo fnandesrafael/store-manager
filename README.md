@@ -1,13 +1,13 @@
 # Projeto Store Manager
 
 ## Conceito
-Essa é uma aplicação simples de um *Banco de Dados Relacional*. Esse banco simula o estoque de uma loja de produtos qualquer. Construída com **MySQL** e utilizando a *ORM* **Sequelize**, utilizei *Arquitetura de Três Camadas* e o *Paradigma Funcional* para construir as camadas de *Controllers*, *Services* e *Models* da aplicação. Trata-se de um *CRUD* de produtos e vendas, que atualmente pode ser realizado através de alguma extensão como o **Thunder Client**, **Postman** ou **Insomnia**, mas que ainda pretendo implementar um *frontend* simples mas que torne a aplicação mais prática.
+Essa é uma aplicação simples de um *Banco de Dados Relacional*. Esse banco simula o estoque de uma loja de produtos qualquer. Construída com **MySQL** e utilizando a *Bilioteca* **MySQL2**, utilizei *Arquitetura de Três Camadas* e o *Paradigma Funcional* para construir as camadas de *Controllers*, *Services* e *Models* da aplicação. Trata-se de um *CRUD* de produtos e vendas, que atualmente pode ser realizado através de alguma extensão como o **Thunder Client**, **Postman** ou **Insomnia**, mas que ainda pretendo implementar um *frontend* simples mas que torne a aplicação mais prática.
 
 ## Tecnologias utilizadas 
 - [Javascript](https://www.javascript.com/)
 - [NodeJS](https://nodejs.org/en/about/)
 - [MySQL](https://www.mysql.com/)
-- [Sequelize](https://sequelize.org/)
+- [MySQL2](https://www.npmjs.com/package/mysql2)
 - [Express](https://expressjs.com/pt-br/)
 - [Docker](https://www.docker.com/)
 

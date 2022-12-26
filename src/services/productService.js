@@ -22,7 +22,7 @@ const getProductById = async (id) => {
   console.log(product);
   if (Object.keys(product).length === 0) throw ProductNotFound;
   
-  return product;
+  return product[0];
 };
 
 const editProduct = async (id, payload) => {
