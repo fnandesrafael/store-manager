@@ -25,6 +25,14 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Product": {
+                  "value": {
+                    "name":"Martelo de Thor",
+                    "quantity": 10
+                  }
+                }
               }
             }
           }
@@ -116,7 +124,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id do produto pesquisado",
+            "description": "Id do produto pesquisado.",
             "required": true
           }
         ],
@@ -139,6 +147,131 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Edita um produto",
+        "description": "Com esse método você conseguirá editar um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint. Também é necessário enviar os novos dados que esse produto deve ter, no corpo da requisição.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto à ser editado.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Product": {
+                  "value": {
+                    "name":"Martelo de Thor",
+                    "quantity": 50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Se editado com sucesso, será retornado um Status Code 200 e um objeto com o produto editado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Updated Product"
+                },
+                "examples": {
+                  "Updated Product": {
+                    "value": {
+                      "id": 1,
+                      "name":"Martelo de Thor",
+                      "quantity": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do Body da requisição for passada incorretamente, ou se algum dos valores no Body da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"name\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"name\" must be a string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Apaga um produto",
+        "description": "Com esse método você conseguirá apagar um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint. Não é necessário no entanto, enviar qualquer dado no body da requisição.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto à ser apagado.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Se apagado com sucesso, será retornado um Status Code 204 sem nenhum conteúdo."
           },
           "404": {
             "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
@@ -183,6 +316,20 @@
         }
       },
       "Registered Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "Updated Product": {
         "type": "object",
         "properties": {
           "id": {
