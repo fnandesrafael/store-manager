@@ -1,0 +1,119 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Store Manager API",
+    "description": "Essa é uma aplicação simples de um Banco de Dados Relacional. Esse banco simula o estoque de uma loja de produtos qualquer. Construída com MySQL e utilizando a Bilioteca MySQL2, utilizei Arquitetura de Três Camadas e o Paradigma Funcional para construir as camadas de Controllers, Services e Models da aplicação. Trata-se de um CRUD de produtos e vendas, que atualmente pode ser realizado através de alguma extensão como o Thunder Client, Postman ou Insomnia, mas que ainda pretendo implementar um frontend simples mas que torne a aplicação mais prática.",
+    "contact": {
+      "email": "rafaelima.fernandez@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/v1",
+      "description": "API de desenvolvimento"
+    },
+    {
+      "url": "https://rafaelimaf.github.io/store-manager/v1",
+      "description": "API de produção"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "post": {
+        "summary": "Cria um novo produto",
+        "description": "Com esse método, você conseguirá inserir um novo produto no banco de dados.",
+        "tags": ["Products"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Se criado com sucesso, a API retornará um Status Code 201 e um objeto com os seguintes dados:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/New Product"
+                },
+                "examples": {
+                  "New Product": {
+                    "value": {
+                      "id": 1,
+                      "name": "Martelo do Thor",
+                      "quantity": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do Body da requisição for passada incorretamente, ou se algum dos valores no Body da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"name\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"name\" must be a string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error Message": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "New Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
