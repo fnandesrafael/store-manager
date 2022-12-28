@@ -11,11 +11,7 @@
   "servers": [
     {
       "url": "http://localhost:3001/v1",
-      "description": "API de desenvolvimento"
-    },
-    {
-      "url": "https://rafaelimaf.github.io/store-manager/v1",
-      "description": "API de produção"
+      "description": "API em ambiente de desenvolvimento"
     }
   ],
   "paths": {
