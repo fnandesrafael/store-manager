@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.get('/v1', (_req, res) => {
+app.get('/', (_req, res) => {
   res.redirect('v1/docs');
 });
 

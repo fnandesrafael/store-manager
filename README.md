@@ -114,7 +114,7 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 
 <details>
   <summary>
-    <b>🧪 Execução de Testes e CI</b>
+    <b>🧪 Execução de Testes e Linter</b>
   </summary>
 
   ####
@@ -550,4 +550,4 @@ Confira abaixo cada um dos métodos e endpoints disponíveis na *API*, com suas 
 
 
 ## Propriedade intelectual e referências:
-Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI/CD*.
+Toda a aplicação foi desenvolvida por mim de forma independente, sendo necessário isto, para minha aprovação no projeto. Toda a criação e implementação de Componentes, Estilos e Lógica para o cumprimento dos requisitos do projeto, por mim foram feitas, assim como os testes e configuações finais da aplicação como *Ambiente de Desenvolvimento* e *CI*.

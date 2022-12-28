@@ -35,10 +35,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/New Product"
+                  "$ref": "#/components/schemas/Registered Product"
                 },
                 "examples": {
-                  "New Product": {
+                  "Registered Product": {
                     "value": {
                       "id": 1,
                       "name": "Martelo do Thor",
@@ -75,11 +75,11 @@
       },
       "get": {
         "summary": "Lista todos produtos",
-        "description": "Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no Body da requisição, mas se tudo ocorrer com sucesso, a API retornará um Status Code 200 e um array de objetos com os dados de todos os produtos, similar ao código abaixo.",
+        "description": "Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no Body da requisição.",
         "tags": ["Products"],
         "responses": {
           "200": {
-            "description": "Se não houver nenhum produto cadastrano no Banco de Dados, ainda será retornado um Status Code 200 porém com um array vazio.",
+            "description": "Se tudo ocorrer com sucesso, a API retornará um Status Code 200 e um array de objetos com os dados de todos os produtos, similar ao código abaixo. Se não houver nenhum produto cadastrado no Banco de Dados, no entando, ainda será retornado um Status Code 200 porém com um array vazio.",
             "content": {
               "application/json": {
                 "schema": {
@@ -99,6 +99,59 @@
                         "quantity": 20
                       }
                     ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary":"Lista um produto",
+        "description": "Com esse método você conseguirá pesquisar por um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto pesquisado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Se listado com sucesso, será retornado um Status Code 200 e um objeto com o produto pesquisado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Registered Product"
+                },
+                "examples": {
+                  "Registered Product": {
+                    "value": {
+                      "id": 1,
+                      "name": "Martelo do Thor",
+                      "quantity": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
                   }
                 }
               }
@@ -129,7 +182,7 @@
           }
         }
       },
-      "New Product": {
+      "Registered Product": {
         "type": "object",
         "properties": {
           "id": {
