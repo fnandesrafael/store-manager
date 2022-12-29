@@ -13,6 +13,8 @@ const restoreDb = async () => {
       await importer.import('./src/database/StoreManager.sql');
 
       await importer.disconnect();
+
+      console.log('Database restored');
 };
 
 restoreDb();
