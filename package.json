@@ -4,7 +4,7 @@
   "description": "CRUD com Mysql e NodeJS para vendas de produtos",
   "main": "index.js",
   "scripts": {
-    "prestart": "node src/database/resetDatabase.js",
+    "db:reset": "node src/database/resetDatabase.js",
     "start": "nodemon src/index.js",
     "test:dev:unit": "mocha src/tests/unit/**/*.test.js",
     "test:dev:unit:coverage": "nyc npm run test:dev:unit",
