@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "db:reset": "node src/database/resetDatabase.js",
-    "start": "nodemon src/index.js && db:reset",
+    "start": "nodemon src/index.js && npm run db:reset",
     "test:dev:unit": "mocha src/tests/unit/**/*.test.js",
     "test:dev:unit:coverage": "nyc npm run test:dev:unit",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx"
