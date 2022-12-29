@@ -377,6 +377,47 @@
             }
           }
         }
+      },
+      "get": {
+        "summary": "Lista todas vendas",
+        "description": "Com esse método, você conseguirá listar todas as vendas cadastradas no banco de dados, para isso não é necessário enviar nada no corpo da requisição.",
+        "tags": ["Sales"],
+        "responses": {
+          "200": {
+            "description": "Se tudo ocorrer com sucesso, a API retornará um Status Code 200 e um array de objetos com os dados de todas as vendas, similar ao código abaixo(Se não houver nenhum produto cadastrado no Banco de Dados, ainda será retornado um Status Code 200 porém com um array vazio):",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Sales"
+                },
+                "examples": {
+                  "Sales": {
+                    "value": [
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 1,
+                        "quantity": 5
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 2,
+                        "quantity": 10
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 2,
+                        "productId": 3,
+                        "quantity": 15
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -398,6 +439,23 @@
           },
           "quantity": {
             "type": "number"
+          }
+        }
+      },
+      "Products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "number"
+            }
           }
         }
       },
@@ -429,16 +487,13 @@
           }
         }
       },
-      "Products": {
+      "Sale": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
-            "id": {
+            "productId": {
               "type": "number"
-            },
-            "name": {
-              "type": "string"
             },
             "quantity": {
               "type": "number"
@@ -446,11 +501,17 @@
           }
         }
       },
-      "Sale": {
+      "Sales": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
+            "date": {
+              "type": "date"
+            },
+            "saleId": {
+              "type": "number"
+            },
             "productId": {
               "type": "number"
             },
