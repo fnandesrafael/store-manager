@@ -2,12 +2,12 @@ const Importer = require('mysql-import');
 require('dotenv').config();
 
 const restoreDb = async () => {
-    const { MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST } = process.env;
+    const { MYSQLUSER, MYSQLPASSWORD, MYSQLHOST } = process.env;
 
     const importer = new Importer({
-        user: MYSQL_USER,
-        password: MYSQL_PASSWORD,
-        host: MYSQL_HOST,
+        user: MYSQLUSER,
+        password: MYSQLPASSWORD,
+        host: MYSQLHOST,
       });
 
       await importer.import('./src/database/StoreManager.sql');
