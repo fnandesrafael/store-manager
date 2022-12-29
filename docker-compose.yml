@@ -16,15 +16,15 @@ services:
     ports:
       - 3001:3001
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_HOST: db
-      PORT: '3001'
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      PORT: ${PORT}
 
   db:
     container_name: store_manager_db
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306

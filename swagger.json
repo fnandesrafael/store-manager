@@ -1,0 +1,749 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Store Manager API",
+    "description": "Essa é uma aplicação simples de um Banco de Dados Relacional. Esse banco simula o estoque de uma loja de produtos qualquer. Construída com MySQL e utilizando a Bilioteca MySQL2, utilizei Arquitetura de Três Camadas e o Paradigma Funcional para construir as camadas de Controllers, Services e Models da aplicação. Trata-se de um CRUD de produtos e vendas, que atualmente pode ser realizado através de alguma extensão como o Thunder Client, Postman ou Insomnia, mas que ainda pretendo implementar um frontend simples mas que torne a aplicação mais prática.",
+    "contact": {
+      "email": "rafaelima.fernandez@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/",
+      "description": "API em ambiente de desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/v1/products": {
+      "post": {
+        "summary": "Cria um novo produto",
+        "description": "Com esse método, você conseguirá inserir um novo produto no banco de dados.",
+        "tags": ["Products"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Product": {
+                  "value": {
+                    "name":"Martelo de Thor",
+                    "quantity": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Se criado com sucesso, a API retornará um Status Code 201 e um objeto com os seguintes dados:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registered Product"
+                },
+                "examples": {
+                  "Registered Product": {
+                    "value": {
+                      "id": 1,
+                      "name": "Martelo do Thor",
+                      "quantity": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"name\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"name\" must be a string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Lista todos produtos",
+        "description": "Com esse método, você conseguirá listar todos os produtos cadastrados no banco de dados, para isso não é necessário enviar nada no Body da requisição.",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "description": "Se tudo ocorrer com sucesso, a API retornará um Status Code 200 e um array de objetos com os dados de todos os produtos, similar ao código abaixo. Se não houver nenhum produto cadastrado no Banco de Dados, no entando, ainda será retornado um Status Code 200 porém com um array vazio.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Products"
+                },
+                "examples": {
+                  "Products": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "name": "Martelo de Thor",
+                        "quantity": 10
+                      },
+                      {
+                        "id": 2,
+                        "name": "Traje de encolhimento",
+                        "quantity": 20
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/products/{id}": {
+      "get": {
+        "summary":"Lista um produto",
+        "description": "Com esse método você conseguirá pesquisar por um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto pesquisado.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Se listado com sucesso, será retornado um Status Code 200 e um objeto com o produto pesquisado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Registered Product"
+                },
+                "examples": {
+                  "Registered Product": {
+                    "value": {
+                      "id": 1,
+                      "name": "Martelo do Thor",
+                      "quantity": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Edita um produto",
+        "description": "Com esse método você conseguirá editar um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint. Também é necessário enviar os novos dados que esse produto deve ter, no corpo da requisição.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto à ser editado.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "Product": {
+                  "value": {
+                    "name":"Martelo de Thor",
+                    "quantity": 50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Se editado com sucesso, será retornado um Status Code 200 e um objeto com o produto editado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Registered Product"
+                },
+                "examples": {
+                  "Updated Product": {
+                    "value": {
+                      "id": 1,
+                      "name":"Martelo de Thor",
+                      "quantity": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"name\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"name\" must be a string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Apaga um produto",
+        "description": "Com esse método você conseguirá apagar um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint. Não é necessário no entanto, enviar qualquer dado no body da requisição.",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto à ser apagado.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Se apagado com sucesso, será retornado um Status Code 204 sem nenhum conteúdo."
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sales": {
+      "post": {
+        "summary": "Cria uma nova venda",
+        "description": "Com esse método, você conseguirá inserir uma nova venda no banco de dados, para isso basta enviar no corpo da requisição um array de objetos, onde cada objeto equivale à um produto e a quantidade à ser comprada.",
+        "tags": ["Sales"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref":"#/components/schemas/Sale"
+              },
+              "examples": {
+                "Sale": {
+                  "value": [
+                    {
+                      "productId": 1,
+                      "quantity": 10
+                    },
+                    {
+                      "productId": 2,
+                      "quantity": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Se a venda for realizada com sucesso, a API retornará um Status Code 201 e um objeto com os seguintes dados:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Registered Sale"
+                },
+                "examples": {
+                  "Registered Sale": {
+                    "value": {
+                      "id": 1,
+                      "itemsSold": [
+                        {
+                          "productId": 1,
+                          "quantity": 10
+                        },
+                        {
+                          "productId": 2,
+                          "quantity": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passada com o tipo correto, ou ainda se uma venda realizada, consumir uma quantidade de produtos, maior do que a disponível em estoque será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"productId\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"productId\" must be a number"
+                    }
+                  },
+                  "Stock Error": {
+                    "value": {
+                      "message": "Order quantity for some products exceeds stock"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Lista todas vendas",
+        "description": "Com esse método, você conseguirá listar todas as vendas cadastradas no banco de dados, para isso não é necessário enviar nada no corpo da requisição.",
+        "tags": ["Sales"],
+        "responses": {
+          "200": {
+            "description": "Se tudo ocorrer com sucesso, a API retornará um Status Code 200 e um array de objetos com os dados de todas as vendas, similar ao código abaixo(Se não houver nenhum produto cadastrado no Banco de Dados, ainda será retornado um Status Code 200 porém com um array vazio):",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Sales"
+                },
+                "examples": {
+                  "Sales": {
+                    "value": [
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 1,
+                        "quantity": 5
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 2,
+                        "quantity": 10
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 2,
+                        "productId": 3,
+                        "quantity": 15
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sales/{id}": {
+      "get": {
+        "summary": "Lista uma venda",
+        "description": "Com esse método você conseguirá pesquisar por uma venda específica baseada em seu id, que deve ser fornecido ao final do endpoint.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda pesquisada",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Se listada com sucesso, será retornado um Status Code 200 e um array de objetos com a venda pesquisada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Sales"
+                },
+                "examples": {
+                  "Sale": {
+                    "value": [
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 1,
+                        "quantity": 5
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 2,
+                        "quantity": 10
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message":"Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Edita uma venda",
+        "description": "Com esse método você conseguirá editar uma venda específica baseado em seu id, que deve ser fornecido ao final do endpoint. Também é necessário enviar os novos dados que essa venda deve ter.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda à ser editado.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              },
+              "examples": {
+                "Product": {
+                  "value": [
+                    {
+                      "productId": 1,
+                      "quantity": 15
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Se editado com sucesso, será retornado um Status Code 200 e um objeto com o produto editado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Updated Sale"
+                },
+                "examples": {
+                  "Updated Sale": {
+                    "value": {
+                      "saleId": 1,
+                      "itemUpdated": [
+                        {
+                          "productId": 1,
+                          "quantity": 15
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"productId\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"productId\" must be a number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Apaga uma venda",
+        "description": "Com esse método você conseguirá apagar uma venda específica baseado em seu id, que deve ser fornecido ao final do endpoint.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda à ser editado.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Se apagado com sucesso, será retornado um Status Code 200 sem nenhum conteúdo."
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error Message": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "Products": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "Registered Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "Sale": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "number"
+            },
+            "quantity": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "Sales": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "date"
+            },
+            "saleId": {
+              "type": "number"
+            },
+            "productId": {
+              "type": "number"
+            },
+            "quantity": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "Registered Sale": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "itemsSold": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Updated Sale": {
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "number"
+          },
+          "itemUpdated": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
