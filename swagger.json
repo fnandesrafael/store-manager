@@ -480,6 +480,137 @@
             }
           }
         }
+      },
+      "put": {
+        "summary": "Edita uma venda",
+        "description": "Com esse método você conseguirá editar uma venda específica baseado em seu id, que deve ser fornecido ao final do endpoint. Também é necessário enviar os novos dados que essa venda deve ter.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda à ser editado.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              },
+              "examples": {
+                "Product": {
+                  "value": [
+                    {
+                      "productId": 1,
+                      "quantity": 15
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Se editado com sucesso, será retornado um Status Code 200 e um objeto com o produto editado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Updated Sale"
+                },
+                "examples": {
+                  "Updated Sale": {
+                    "value": {
+                      "saleId": 1,
+                      "itemUpdated": [
+                        {
+                          "productId": 1,
+                          "quantity": 15
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"productId\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"productId\" must be a number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Apaga uma venda",
+        "description": "Com esse método você conseguirá apagar uma venda específica baseado em seu id, que deve ser fornecido ao final do endpoint.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda à ser editado.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Se apagado com sucesso, será retornado um Status Code 200 sem nenhum conteúdo."
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message": "Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -576,6 +707,28 @@
             "type": "number"
           },
           "itemsSold": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Updated Sale": {
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "number"
+          },
+          "itemUpdated": {
             "type": "array",
             "items": {
               "type": "object",
