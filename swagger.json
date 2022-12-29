@@ -202,7 +202,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref":"#/components/schemas/Updated Product"
+                  "$ref":"#/components/schemas/Registered Product"
                 },
                 "examples": {
                   "Updated Product": {
@@ -419,6 +419,68 @@
           }
         }
       }
+    },
+    "/v1/sales/{id}": {
+      "get": {
+        "summary": "Lista uma venda",
+        "description": "Com esse método você conseguirá pesquisar por uma venda específica baseada em seu id, que deve ser fornecido ao final do endpoint.",
+        "tags": ["Sales"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id da venda pesquisada",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Se listada com sucesso, será retornado um Status Code 200 e um array de objetos com a venda pesquisada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Sales"
+                },
+                "examples": {
+                  "Sale": {
+                    "value": [
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 1,
+                        "quantity": 5
+                      },
+                      {
+                        "date": "2022-12-26T15:26:04.000Z",
+                        "saleId": 1,
+                        "productId": 2,
+                        "quantity": 10
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se o id fornecido for inválido, será retornado um Status Code 404 e o seguinte objeto:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Error Message": {
+                    "value": {
+                      "message":"Sale not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -460,20 +522,6 @@
         }
       },
       "Registered Product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "quantity": {
-            "type": "number"
-          }
-        }
-      },
-      "Updated Product": {
         "type": "object",
         "properties": {
           "id": {
