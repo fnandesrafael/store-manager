@@ -58,7 +58,7 @@
             }
           },
           "400": {
-            "description": "Se alguma das chaves do Body da requisição for passada incorretamente, ou se algum dos valores no Body da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
             "content": {
               "application/json": {
                 "schema": {
@@ -234,7 +234,7 @@
             }
           },
           "400": {
-            "description": "Se alguma das chaves do Body da requisição for passada incorretamente, ou se algum dos valores no Body da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passado com o tipo correto, será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
             "content": {
               "application/json": {
                 "schema": {
@@ -284,6 +284,92 @@
                   "Error Message": {
                     "value": {
                       "message": "Product not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sales": {
+      "post": {
+        "summary": "Cria uma nova venda",
+        "description": "Com esse método, você conseguirá inserir uma nova venda no banco de dados, para isso basta enviar no corpo da requisição um array de objetos, onde cada objeto equivale à um produto e a quantidade à ser comprada.",
+        "tags": ["Sales"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref":"#/components/schemas/Sale"
+              },
+              "examples": {
+                "Sale": {
+                  "value": [
+                    {
+                      "productId": 1,
+                      "quantity": 10
+                    },
+                    {
+                      "productId": 2,
+                      "quantity": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Se a venda for realizada com sucesso, a API retornará um Status Code 201 e um objeto com os seguintes dados:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Registered Sale"
+                },
+                "examples": {
+                  "Registered Sale": {
+                    "value": {
+                      "id": 1,
+                      "itemsSold": [
+                        {
+                          "productId": 1,
+                          "quantity": 10
+                        },
+                        {
+                          "productId": 2,
+                          "quantity": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Se alguma das chaves do corpo da requisição for passada incorretamente, ou se algum dos valores no corpo da requisição não for passada com o tipo correto, ou ainda se uma venda realizada, consumir uma quantidade de produtos, maior do que a disponível em estoque será retornado um Status Code 400 e um objeto similar ao demonstrado abaixo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error Message"
+                },
+                "examples": {
+                  "Required Error": {
+                    "value": {
+                      "message": "\"productId\" is required"
+                    }
+                  },
+                  "Type Error": {
+                    "value": {
+                      "message": "\"productId\" must be a number"
+                    }
+                  },
+                  "Stock Error": {
+                    "value": {
+                      "message": "Order quantity for some products exceeds stock"
                     }
                   }
                 }
@@ -356,6 +442,42 @@
             },
             "quantity": {
               "type": "number"
+            }
+          }
+        }
+      },
+      "Sale": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "productId": {
+              "type": "number"
+            },
+            "quantity": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "Registered Sale": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "itemsSold": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "number"
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              }
             }
           }
         }
