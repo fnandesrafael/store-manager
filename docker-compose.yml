@@ -14,18 +14,17 @@ services:
     depends_on:
       - db
     ports:
-      - 3001:${PORT}
+      - 3001:3001
     environment:
       MYSQL_USER: ${MYSQLUSER}
       MYSQL_PASSWORD: ${MYSQLPASSWORD}
       MYSQL_HOST: ${MYSQLHOST}
-      PORT: ${MYSQLPORT}
-
   db:
     container_name: store_manager_db
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQLPASSWORD}
       MYSQL_DATABASE: ${MYSQLDATABASE}
+      MYSQL_PORT: ${MYSQLPORT}
     ports:
-      - 3306:${MYSQLPORT}
+      - 3306:3306
