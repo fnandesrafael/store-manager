@@ -10,12 +10,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3001/v1",
+      "url": "http://localhost:3001/",
       "description": "API em ambiente de desenvolvimento"
     }
   ],
   "paths": {
-    "/products": {
+    "/v1/products": {
       "post": {
         "summary": "Cria um novo produto",
         "description": "Com esse método, você conseguirá inserir um novo produto no banco de dados.",
@@ -115,7 +115,7 @@
         }
       }
     },
-    "/products/{id}": {
+    "/v1/products/{id}": {
       "get": {
         "summary":"Lista um produto",
         "description": "Com esse método você conseguirá pesquisar por um produto específico baseado em seu id, que deve ser fornecido nos parâmetros do endpoint.",
