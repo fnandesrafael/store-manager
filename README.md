@@ -9,7 +9,7 @@
 ## Conceito
 Essa é uma aplicação simples de um *Banco de Dados Relacional*. Esse banco simula o estoque de uma loja de produtos qualquer. Construída com **MySQL** e utilizando a *Bilioteca* **MySQL2**, utilizei *Arquitetura de Três Camadas* e o *Paradigma Funcional* para construir as camadas de *Controllers*, *Services* e *Models* da aplicação. Trata-se de um *CRUD* de produtos e vendas, que atualmente pode ser realizado através de alguma extensão como o **Thunder Client**, **Postman** ou **Insomnia**, podendo ser consumido por algum Framework como *Axios*.
 
-## Acesse à Documentação da API clicando (aqui!)[https://swaggerviewer.ptr.red/spec/aHR0cHM6Ly9naXRodWIuY29tL3JhZmFlbGltYWYvc3RvcmUtbWFuYWdlci9yYXcvbWFpbi9zd2FnZ2VyLmpzb24%3D]
+## Acesse à Documentação da API clicando [aqui!](https://swaggerviewer.ptr.red/spec/aHR0cHM6Ly9naXRodWIuY29tL3JhZmFlbGltYWYvc3RvcmUtbWFuYWdlci9yYXcvbWFpbi9zd2FnZ2VyLmpzb24%3D)
 
 ## Tecnologias utilizadas 
 - [Javascript](https://www.javascript.com/)
