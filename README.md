@@ -143,7 +143,7 @@ O `Docker` é uma ferramenta de gerenciamento de ambientes, através de containe
 </details>
 
 ## Documentação da API
-Toda a documentação da API foi realizada através do *Swagger*, portanto depois de ter realizado todas as configurações anteriores, basta acessar o endereço `localhost:3001/` que você será redirecionado para o endereço `localhost:3001/v1/docs`.
+Toda a documentação da API foi realizada através do *Swagger*, portanto depois de ter realizado todas as configurações anteriores, basta acessar o endereço `localhost:3001/` que você será redirecionado para o endereço `localhost:3001/v1/docs`. Também como você deve ter visto no início do README.md, também é possível acessar a documentação através do [Swagger Viewer](https://swaggerviewer.ptr.red/spec/aHR0cHM6Ly9naXRodWIuY29tL3JhZmFlbGltYWYvc3RvcmUtbWFuYWdlci9yYXcvbWFpbi9zd2FnZ2VyLmpzb24%3D), caso queira visualizá-la sem interagir com o *Banco de Dados*.
 
 Você encontrará a lista dos *endpoints* da *API*. Alguns endpoints possuem requisições e métodos específicos para cada tipo de operação. Para poder realizar as requisições, primeiro certifique-se de que o *Banco de Dados* continua rodando normalmente. Se a *API* também estiver *up*, seguindos os passos da seção **Subindo a API**, então é possível prosseguir.
 
